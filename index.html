@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VakációVágyó 2026</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fefcc8;
+      font-family: 'Segoe UI', sans-serif;
+      color: #333;
+      text-align: center;
+    }
+
+    /* --- NAVIGÁCIÓS SÁV --- */
+    .navbar {
+      background-color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1em 2em;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar a.logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      text-decoration: none;
+      color: yellowgreen;
+    }
+
+    .menu {
+      display: flex;
+      gap: 1em;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: 1em;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      margin: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        flex-direction: column;
+        background-color: #fff;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .menu.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    .container {
+      padding: 5vw;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 6vw;
+      margin-bottom: 0.2em;
+      animation: fadeInDown 1.5s ease-out;
+    }
+
+    p {
+      font-size: 4.5vw;
+      margin-bottom: 1.5em;
+      animation: fadeInUp 1.5s ease-out;
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 3em;
+      }
+
+      p {
+        font-size: 1.5em;
+      }
+    }
+
+    img {
+      width: 60%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      margin-bottom: 2em;
+    }
+
+    button {
+      padding: 1em 2.5em;
+      font-size: 1.1em;
+      background-color: yellow;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #f7e600;
+    }
+
+    /* MODÁL (felugró ablak) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 2em;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    input[type="password"] {
+      padding: 0.7em;
+      font-size: 1em;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      width: 100%;
+      margin-bottom: 1em;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- MENÜSÁV -->
+  <div class="navbar">
+    <a href="index.html" class="logo">VakációVágyó 2026</a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="menu" id="navMenu">
+      <a href="szamlalo.html">Számláló</a>
+      <a href="befizetesek.html">Befizetések</a>
+      <a href="utinaplo.html">Úticélok</a>
+      <a href="eldujra.html">Éld újra!</a>
+      <a href="#" onclick="showModal()">BEJELENTKEZÉS</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>VakációVágyó <br> 2026</h1>
+    <p><b><i>A nagy utazás sok kis aprópénzzel kezdődik!</i></b></p>
+
+    <img src="kep.png" alt="Malacpersely utazásra készen">
+
+    <button onclick="showModal()">BEJELENTKEZÉS</button>
+  </div>
+
+  <!-- MODÁL: Felugró ablak -->
+  <div id="passwordModal" class="modal">
+    <div class="modal-content">
+      <h3>Jelszó szükséges</h3>
+      <input type="password" id="passInput" placeholder="Írd be a jelszót...">
+      <br>
+      <button onclick="checkPassword()">OK</button>
+    </div>
+  </div>
+
+  <p><b><i>Minden apró számít, tegyél egy picit Te is a repülőmalacba!</i></b></p>
+  <p><b><i>Ne feledd! Sok kicsi, sokra megy!</i></b></p>
+
+  <script>
+    function showModal() {
+      document.getElementById('passwordModal').style.display = 'flex';
+    }
+
+    function checkPassword() {
+      const pw = document.getElementById('passInput').value;
+      if (pw === 'NY26') {
+        window.location.href = 'szamlalo.html';
+      } else {
+        alert('Hibás jelszó!');
+      }
+    }
+
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('active');
+    }
+
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.getElementById('passwordModal').style.display = 'none';
+      }
+    });
+
+    window.addEventListener('click', function(e) {
+      const modal = document.getElementById('passwordModal');
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
