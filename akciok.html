@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Akciók</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fefcc8;
+      color: #333;
+    }
+    /* NAVBAR */
+    .navbar {
+      background: #fff;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1em 2em; position: sticky; top: 0; z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .navbar a.logo { font-size: 1.25rem; font-weight: 700; text-decoration: none; color: yellowgreen; }
+    .menu { display: flex; gap: 1em; }
+    .menu a { text-decoration: none; color: #333; font-weight: 500; }
+    .hamburger { display: none; flex-direction: column; cursor: pointer; }
+    .hamburger div { width: 25px; height: 3px; background: #333; margin: 4px; border-radius: 2px; }
+    @media(max-width:768px){
+      .menu { display: none; flex-direction: column; background: #fff; position: absolute; top: 60px; right: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,.2); border-radius: 10px; }
+      .menu.active { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* TARTALOM */
+    .container { max-width: 900px; margin: 2em auto; padding: 0 1em; }
+    h1 { text-align: center; margin-bottom: 1em; color: #222; }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      overflow: hidden;
+      max-width: 600px;
+      margin: auto;
+    }
+    .card img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .card-body { padding: 1.2em; }
+    .card-title { margin: 0 0 .5em; font-size: 1.3rem; color: yellowgreen; }
+    .card-text { margin: 0 0 1em; }
+    .btn {
+      display: inline-block;
+      padding: .6em 1.2em;
+      background: yellowgreen;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .btn:hover { background: #6fa72d; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <a href="index.html" class="logo">VakációVágyó 2026</a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+    <div class="menu" id="navMenu">
+      <a href="szamlalo.html">Számláló</a>
+      <a href="befizetesek.html">Befizetések</a>
+      <a href="eldujra.html">Éld újra</a>
+      <a href="akciok.html">Akciók</a>
+      <a href="tudnivalok.html">Információk</a>
+    </div>
+  </div>
+
+  <!-- EGY KÁRTYA -->
+  <main class="container">
+    <h1>AKCIÓK</h1>
+    <article class="card">
+      <img src="akcio01.jpg" alt="Akció">
+      <div class="card-body">
+        <h3 class="card-title"> Rakj félre egy kis aprót az extra bónuszért!</h3>
+        <p class="card-text"> <b>Ha 2025.10.12.-ig félreraksz legalább 10.000- Ft-ot,  akkor most extra 10.000- Ft -ot írunk jóvá a nyarási alapba! </b> <br> Forrás: Fillérfaló - Orosz Kristóf </p>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    function toggleMenu(){
+      document.getElementById("navMenu").classList.toggle("active");
+    }
+  </script>
+</body>
+</html>
