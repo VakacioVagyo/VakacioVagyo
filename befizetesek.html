@@ -160,6 +160,13 @@
   height: auto;
   display: block;
 }
+  .kozep{
+  display:block;          /* az img alapból inline, így nem működne az auto margó */
+  margin: 0 auto;         /* bal/jobb auto → közép */
+  max-width: 100%;        /* reszponzív */
+  height: auto;
+}
+
 
   </style>
 </head>
@@ -182,7 +189,10 @@
     </div>
   </div>
 
+  <div class="kozep">
   <img src="hogyan.jpg" alt="Útmutató" height="200px" width="1000px">
+  <img src="H01+.jpg" alt="Útmutató" height="200px" width="1000px">
+  </div>
   <div class="container">
     <h1>Befizetések</h1>
 
