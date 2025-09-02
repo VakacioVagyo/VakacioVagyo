@@ -18,6 +18,66 @@
       text-align: center;
     }
 
+    /* ====== TELJES KÉPERNYŐS REPÜLŐ ANIMÁCIÓ (10 mp) ====== */
+    :root{
+      --intro-duration: 5s;        /* az overlay ennyi ideig látszik */
+      --plane-w: min(40vw, 28vh);   /* repülő méret: arányosan igazodik a képernyőhöz */
+      --sky-top: #87ceeb;
+      --sky-bottom: #cfefff;
+      --smoke-interval: 70ms;       /* alap füst sűrűség desktopon */
+    }
+
+    .intro-sky{
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2000; /* minden elé */
+      background: linear-gradient(var(--sky-top), var(--sky-bottom));
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .intro-plane{
+      position:absolute;
+      left:0; top:0;
+      width: var(--plane-w);
+      height:auto;
+      transform: translate(-25vw, 60vh);
+      animation: intro-fly var(--intro-duration) linear forwards;
+      will-change: transform;
+      z-index: 2;
+      image-rendering: auto;
+    }
+
+    @keyframes intro-fly{
+      0%   { transform: translate(-25vw, 65vh) rotate(0deg); }
+      20%  { transform: translate(  0vw, 58vh) rotate(0deg); }
+      40%  { transform: translate( 30vw, 52vh) rotate(0deg); }
+      60%  { transform: translate( 60vw, 46vh) rotate(0deg); }
+      80%  { transform: translate( 90vw, 42vh) rotate(0deg); }
+      100% { transform: translate(120vw, 38vh) rotate(0deg); }
+    }
+
+    .intro-smoke{
+      position:absolute; width:16px; height:16px; border-radius:50%; pointer-events:none; z-index:1;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,200,220,.75) 40%, rgba(255,255,255,0) 70%);
+      filter: blur(0.5px);
+      animation: intro-puff 1.8s ease-out forwards;
+    }
+    @keyframes intro-puff{
+      0%{ transform: translate(0, 0) scale(.5); opacity:.9 }
+      100%{ transform: translate(-80px, -40px) scale(1.9); opacity:0 }
+    }
+
+    @media (max-width: 600px){
+      :root{
+        --smoke-interval: 120ms;    /* mobilon ritkább füst, hogy jobban látszódjon a gép */
+        --plane-w: min(54vw, 30vh); /* picit nagyobb arány mobilon */
+      }
+    }
+
     /* --- NAVIGÁCIÓS SÁV --- */
     .navbar {
       background-color: #fff;
@@ -178,47 +238,51 @@
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-/* Bejelentkezés gomb a képernyő jobb felső sarkában nagyobb kijelzőn */
-@media (min-width: 992px) {
-  .container button {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    margin: 0;
-    z-index: 1100; /* hogy a navbar fölött is látszódjon */
-  }
-}
-/* Kép és utolsó bekezdések egymás mellett nagyobb képernyőn */
-@media (min-width: 992px) {
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 
-  .container img {
-    margin-bottom: 0;
-  }
+    /* Bejelentkezés gomb a képernyő jobb felső sarkában nagyobb kijelzőn */
+    @media (min-width: 992px) {
+      .container button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        margin: 0;
+        z-index: 1100; /* hogy a navbar fölött is látszódjon */
+      }
+    }
+    /* Kép és utolsó bekezdések egymás mellett nagyobb képernyőn */
+    @media (min-width: 992px) {
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
 
-  .extra-text {
-    display: inline-block;
-    vertical-align: top;
-    margin-left: 2em;
-    max-width: 300px;
-    text-align: left;
-  }
+      .container img {
+        margin-bottom: 0;
+      }
 
-  /* A kép és a szöveg egymás mellé */
-  .container img,
-  .extra-text {
-    display: inline-block;
-  }
-}
+      .extra-text {
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 2em;
+        max-width: 300px;
+        text-align: left;
+      }
 
-
+      /* A kép és a szöveg egymás mellé */
+      .container img,
+      .extra-text {
+        display: inline-block;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- ====== TELJES KÉPERNYŐS REPÜLŐ OVERLAY (10 mp) ====== -->
+  <div class="intro-sky" id="intro-sky" aria-hidden="true">
+    <img src="repulo.png" class="intro-plane" id="intro-plane" alt="Repülőgép">
+  </div>
 
   <!-- MENÜSÁV -->
 
@@ -247,6 +311,79 @@
   <p><b><i>Ne feledd! Sok kicsi, sokra megy!</i></b></p>
 
   <script>
+    /* ====== Repülő overlay logika ====== */
+    (function(){
+      const overlay = document.getElementById('intro-sky');
+      const plane   = document.getElementById('intro-plane');
+
+      // Amíg fut az intro, tiltsuk a háttér görgetést
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+
+      function getMsFromVar(name, fallbackMs){
+        const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        if(raw.endsWith('ms')) return parseFloat(raw) || fallbackMs;
+        if(raw.endsWith('s'))  return (parseFloat(raw) || (fallbackMs/1000)) * 1000;
+        return fallbackMs;
+      }
+      const DURATION = getMsFromVar('--intro-duration', 10000);
+      const smokeInterval = getMsFromVar('--smoke-interval', 70);
+
+      let timer = null, smokeTimer = null;
+
+      function endIntro(){
+        if(timer){ clearTimeout(timer); timer=null; }
+        if(smokeTimer){ clearInterval(smokeTimer); smokeTimer=null; }
+        overlay.style.transition = 'opacity 400ms ease';
+        overlay.style.opacity = '0';
+        // kis késleltetéssel teljesen eltávolítjuk
+        setTimeout(() => {
+          overlay.remove();
+          document.body.style.overflow = originalOverflow;
+        }, 420);
+      }
+
+      // Füstpamacsok kibocsátása az img méretéhez igazítva
+      function startSmoke(){
+        const skyRect = overlay.getBoundingClientRect();
+
+        smokeTimer = setInterval(() => {
+          const pRect = plane.getBoundingClientRect();
+          // kipufogó kb. a gép hátsó alsó harmadában
+          const x = pRect.left - skyRect.left + pRect.width * 0.10;
+          const y = pRect.top  - skyRect.top  + pRect.height * 0.70;
+          makePuff(x, y);
+        }, smokeInterval);
+      }
+
+      function makePuff(x, y){
+        const d = document.createElement('div');
+        d.className = 'intro-smoke';
+        const size = 10 + Math.random()*22;
+        d.style.width = size + 'px';
+        d.style.height = size + 'px';
+        d.style.left = (x - size/2) + 'px';
+        d.style.top  = (y - size/2) + 'px';
+        d.style.animationDuration = (1400 + Math.random()*800) + 'ms';
+        overlay.appendChild(d);
+        d.addEventListener('animationend', () => d.remove());
+      }
+
+      // Reduced motion esetén ne animáljunk
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if(reduce){
+        endIntro();
+        return;
+      }
+
+      // Indítás
+      overlay.style.opacity = '1';
+      startSmoke();
+      timer = setTimeout(endIntro, DURATION);
+    })();
+
+    /* ====== Az oldal eredeti JS-e változatlanul ====== */
     function showModal() {
       document.getElementById('passwordModal').style.display = 'flex';
     }

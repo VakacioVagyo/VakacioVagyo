@@ -218,6 +218,11 @@
     <!-- Összesített számláló -->
     <div class="counter-box">
       <div class="amount" id="currentAmount">0 Ft</div>
+      <!-- ÚJ: Befizetett + félretett / cél -->
+      <div id="totalVsGoal" aria-live="polite"></div>
+      <!-- ÚJ: százalék -->
+      <div id="totalPercent" aria-live="polite"></div>
+
       <div class="progress-bar">
         <div class="progress" id="progressBar"></div>
       </div>
@@ -226,7 +231,14 @@
     <!-- Egyéni számlálók -->
     <div class="individual-counter">
       <div class="individual-name">Orosz Sándor</div>
+      <!-- ÚJ: Persely adatok -->
+      <div>Perselyszámlanév: <br><span id="sandorAccountName"></span><br></div>
+      <div>Perselyszámla szám: <br> <span id="sandorAccountNumber"></span></div> <br>
+
       <div class="individual-amount" id="sandorAmount">0 Ft</div>
+      <!-- ÚJ: százalék -->
+      <div id="sandorPercent"></div>
+
       <div class="progress-bar">
         <div class="progress" id="sandorBar"></div>
       </div>
@@ -234,7 +246,14 @@
 
     <div class="individual-counter">
       <div class="individual-name">Orosz Szilvia</div>
+      <!-- ÚJ: Persely adatok -->
+      <div>Perselyszámlanév: <br><span id="szilviaAccountName"></span></div>
+      <div>Perselyszámla szám: <br><span id="szilviaAccountNumber"></span></div>
+
       <div class="individual-amount" id="szilviaAmount">0 Ft</div>
+      <!-- ÚJ: százalék -->
+      <div id="szilviaPercent"></div>
+
       <div class="progress-bar">
         <div class="progress" id="szilviaBar"></div>
       </div>
@@ -242,7 +261,14 @@
 
     <div class="individual-counter">
       <div class="individual-name">Orosz Kristóf</div>
+      <!-- ÚJ: Persely adatok -->
+      <div>Perselyszámlanév: <br> <span id="kristofAccountName"></span></div>
+      <div>Perselyszámla szám: <br><span id="kristofAccountNumber"></span></div>
+
       <div class="individual-amount" id="kristofAmount">0 Ft</div>
+      <!-- ÚJ: százalék -->
+      <div id="kristofPercent"></div>
+
       <div class="progress-bar">
         <div class="progress" id="kristofBar"></div>
       </div>
@@ -267,11 +293,27 @@
     const currentValue = 0;
     const maxValue = 1000000;
 
-    // Egyéni értékek
+    // ÚJ: Félretett (összesítő)
+    const savedValue = 0; // itt adható meg a félretett összeg
+
+    // Egyéni értékek (befizetett)
     const sandorValue = 0;
     const szilviaValue = 0;
     const kristofValue = 0;
     const individualMax = 340000;
+
+    // ÚJ: Egyéni félretett értékek
+    const sandorSaved = 0;
+    const szilviaSaved = 0;
+    const kristofSaved = 0;
+
+    // ÚJ: Perselyszámla adatok
+    const sandorAccountName = '';       // pl.: "Családi persely - Sándor"
+    const sandorAccountNumber = '';     // pl.: "12345678-00000000"
+    const szilviaAccountName = '';
+    const szilviaAccountNumber = '';
+    const kristofAccountName = 'VakációVágyó 2026 - Kristóf';
+    const kristofAccountNumber = '11773047-02016142-00000000';
 
     function animateCounter() {
       const el = document.getElementById("currentAmount");
@@ -293,19 +335,53 @@
       document.getElementById("progressBar").style.width = percent + "%";
     }
 
-    function updateIndividual(idAmount, idBar, value) {
-      document.getElementById(idAmount).innerText = value.toLocaleString('hu-HU') + ' Ft';
+    // ÚJ: Összesítő kiírása: (befizetett + félretett) / cél + százalék
+    function updateTotalTexts() {
+      const totalNow = (currentValue + savedValue);
+      const totalText = `${totalNow.toLocaleString('hu-HU')} Ft / ${maxValue.toLocaleString('hu-HU')} Ft`;
+      document.getElementById('totalVsGoal').innerText = totalText;
+
+      const percentNow = maxValue > 0 ? (totalNow / maxValue) * 100 : 0;
+      document.getElementById('totalPercent').innerText = ` ${percentNow.toFixed(1)}%`;
+    }
+
+    function updateIndividual(idAmount, idBar, value, saved, percentId) {
+      // Kiírás: (befizetett + félretett) / cél
+      const totalInd = value + saved;
+      document.getElementById(idAmount).innerText =
+        `${totalInd.toLocaleString('hu-HU')} Ft / ${individualMax.toLocaleString('hu-HU')} Ft`;
+
+      // Százalék kiírása
+      const p = individualMax > 0 ? (totalInd / individualMax) * 100 : 0;
+      if (percentId) {
+        document.getElementById(percentId).innerText = `${p.toFixed(1)}%`;
+      }
+
+      // Meglévő progress bar működését NEM módosítjuk (az eredeti value alapján)
       const percent = Math.min(100, (value / individualMax) * 100);
       document.getElementById(idBar).style.width = percent + "%";
+    }
+
+    // ÚJ: Persely adatok kiírása
+    function fillAccount(idName, idNum, nameVal, numVal){
+      const n1 = document.getElementById(idName);
+      const n2 = document.getElementById(idNum);
+      if (n1) n1.textContent = nameVal || '—';
+      if (n2) n2.textContent = numVal || '—';
     }
 
     window.onload = () => {
       animateCounter();
       updateProgressBar();
+      updateTotalTexts();
 
-      updateIndividual("sandorAmount", "sandorBar", sandorValue);
-      updateIndividual("szilviaAmount", "szilviaBar", szilviaValue);
-      updateIndividual("kristofAmount", "kristofBar", kristofValue);
+      updateIndividual("sandorAmount", "sandorBar", sandorValue, sandorSaved, "sandorPercent");
+      updateIndividual("szilviaAmount", "szilviaBar", szilviaValue, szilviaSaved, "szilviaPercent");
+      updateIndividual("kristofAmount", "kristofBar", kristofValue, kristofSaved, "kristofPercent");
+
+      fillAccount("sandorAccountName", "sandorAccountNumber", sandorAccountName, sandorAccountNumber);
+      fillAccount("szilviaAccountName", "szilviaAccountNumber", szilviaAccountName, szilviaAccountNumber);
+      fillAccount("kristofAccountName", "kristofAccountNumber", kristofAccountName, kristofAccountNumber);
     };
   </script>
 </body>
