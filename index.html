@@ -18,13 +18,13 @@
       text-align: center;
     }
 
-    /* ====== TELJES KÉPERNYŐS REPÜLŐ ANIMÁCIÓ (10 mp) ====== */
+    /* ====== TELJES KÉPERNYŐS REPÜLŐ ANIMÁCIÓ (5 mp) ====== */
     :root{
-      --intro-duration: 5s;        /* az overlay ennyi ideig látszik */
-      --plane-w: min(40vw, 28vh);   /* repülő méret: arányosan igazodik a képernyőhöz */
+      --intro-duration: 10s;
+      --plane-w: min(40vw, 28vh);
       --sky-top: #87ceeb;
       --sky-bottom: #cfefff;
-      --smoke-interval: 70ms;       /* alap füst sűrűség desktopon */
+      --smoke-interval: 70ms;
     }
 
     .intro-sky{
@@ -32,7 +32,7 @@
       inset: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 2000; /* minden elé */
+      z-index: 2000;
       background: linear-gradient(var(--sky-top), var(--sky-bottom));
       overflow: hidden;
       isolation: isolate;
@@ -47,7 +47,6 @@
       animation: intro-fly var(--intro-duration) linear forwards;
       will-change: transform;
       z-index: 2;
-      image-rendering: auto;
     }
 
     @keyframes intro-fly{
@@ -73,9 +72,37 @@
 
     @media (max-width: 600px){
       :root{
-        --smoke-interval: 120ms;    /* mobilon ritkább füst, hogy jobban látszódjon a gép */
-        --plane-w: min(54vw, 30vh); /* picit nagyobb arány mobilon */
+        --smoke-interval: 120ms;
+        --plane-w: min(54vw, 30vh);
       }
+    }
+
+    /* ====== Visszaszámláló stílus ====== */
+    .countdown-wrapper {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      color: yellow;
+      font-family: 'Courier New', monospace;
+      z-index: 3;
+    }
+
+    .countdown-wrapper h2 {
+      font-size: 1.5em;
+      margin-bottom: 0.5em;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    #countdown {
+      font-size: 2em;
+      letter-spacing: 0.1em;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    #countdown span {
+      display: inline-block;
+      min-width: 40px;
     }
 
     /* --- NAVIGÁCIÓS SÁV --- */
@@ -212,7 +239,7 @@
     }
 
     .modal-content {
-      background-color: #fff;
+      background-color: white;
       padding: 2em;
       border-radius: 20px;
       width: 90%;
@@ -239,17 +266,16 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Bejelentkezés gomb a képernyő jobb felső sarkában nagyobb kijelzőn */
     @media (min-width: 992px) {
       .container button {
         position: fixed;
         top: 20px;
         right: 20px;
         margin: 0;
-        z-index: 1100; /* hogy a navbar fölött is látszódjon */
+        z-index: 1100;
       }
     }
-    /* Kép és utolsó bekezdések egymás mellett nagyobb képernyőn */
+
     @media (min-width: 992px) {
       .container {
         display: flex;
@@ -269,25 +295,36 @@
         text-align: left;
       }
 
-      /* A kép és a szöveg egymás mellé */
       .container img,
       .extra-text {
         display: inline-block;
       }
     }
+    /* Csak a smartlinetravel linkelt képre alkalmazzuk */
+a[href*="smartlinetravel.hu"] { -webkit-tap-highlight-color: transparent; }
+a[href*="smartlinetravel.hu"]:focus { outline: none; }
+a[href*="smartlinetravel.hu"] img { border: 0; outline: none; }
+a img {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
   </style>
 </head>
 <body>
 
-  <!-- ====== TELJES KÉPERNYŐS REPÜLŐ OVERLAY (10 mp) ====== -->
+  <!-- ====== TELJES KÉPERNYŐS REPÜLŐ OVERLAY ====== -->
   <div class="intro-sky" id="intro-sky" aria-hidden="true">
+    <div class="countdown-wrapper">
+      <h2>MINDJÁRT ITT A NYÁR! :)</h2>
+      <div id="countdown"></div>
+    </div>
     <img src="repulo.png" class="intro-plane" id="intro-plane" alt="Repülőgép">
   </div>
 
   <!-- MENÜSÁV -->
 
-
-  <div class="container">
   <div class="container">
     <h1>VakációVágyó <br> 2026</h1>
     <p><b><i>A nagy utazás sok kis aprópénzzel kezdődik!</i></b></p>
@@ -316,7 +353,6 @@
       const overlay = document.getElementById('intro-sky');
       const plane   = document.getElementById('intro-plane');
 
-      // Amíg fut az intro, tiltsuk a háttér görgetést
       const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
 
@@ -326,7 +362,7 @@
         if(raw.endsWith('s'))  return (parseFloat(raw) || (fallbackMs/1000)) * 1000;
         return fallbackMs;
       }
-      const DURATION = getMsFromVar('--intro-duration', 10000);
+      const DURATION = getMsFromVar('--intro-duration', 5000);
       const smokeInterval = getMsFromVar('--smoke-interval', 70);
 
       let timer = null, smokeTimer = null;
@@ -336,20 +372,16 @@
         if(smokeTimer){ clearInterval(smokeTimer); smokeTimer=null; }
         overlay.style.transition = 'opacity 400ms ease';
         overlay.style.opacity = '0';
-        // kis késleltetéssel teljesen eltávolítjuk
         setTimeout(() => {
           overlay.remove();
           document.body.style.overflow = originalOverflow;
         }, 420);
       }
 
-      // Füstpamacsok kibocsátása az img méretéhez igazítva
       function startSmoke(){
         const skyRect = overlay.getBoundingClientRect();
-
         smokeTimer = setInterval(() => {
           const pRect = plane.getBoundingClientRect();
-          // kipufogó kb. a gép hátsó alsó harmadában
           const x = pRect.left - skyRect.left + pRect.width * 0.10;
           const y = pRect.top  - skyRect.top  + pRect.height * 0.70;
           makePuff(x, y);
@@ -369,21 +401,48 @@
         d.addEventListener('animationend', () => d.remove());
       }
 
-      // Reduced motion esetén ne animáljunk
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
       if(reduce){
         endIntro();
         return;
       }
 
-      // Indítás
       overlay.style.opacity = '1';
       startSmoke();
       timer = setTimeout(endIntro, DURATION);
     })();
 
-    /* ====== Az oldal eredeti JS-e változatlanul ====== */
+    /* ====== Számláló ====== */
+    (function(){
+      const countdownEl = document.getElementById("countdown");
+      const targetDate = new Date("2026-06-01T00:00:00").getTime();
+
+      function updateCountdown(){
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if(distance < 0){
+          countdownEl.innerHTML = "🌞 Eljött a nyár! 🌴";
+          return;
+        }
+
+        const days = Math.floor(distance / (1000*60*60*24));
+        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+        const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+        countdownEl.innerHTML =
+          `<span>${String(days).padStart(2,'0')}</span>N ` +
+          `<span>${String(hours).padStart(2,'0')}</span>Ó ` +
+          `<span>${String(minutes).padStart(2,'0')}</span>P ` +
+          `<span>${String(seconds).padStart(2,'0')}</span>M`;
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    })();
+
+    /* ====== Az oldal eredeti JS-e ====== */
     function showModal() {
       document.getElementById('passwordModal').style.display = 'flex';
     }
