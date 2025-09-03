@@ -18,6 +18,273 @@
       text-align: center;
     }
 
+    :root{
+      --intro-duration: 5s;
+      --plane-w: min(40vw, 28vh);
+      --sky-top: #87ceeb;
+      --sky-bottom: #cfefff;
+      --smoke-interval: 70ms;
+    }
+
+    .intro-sky{
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2000;
+      background: linear-gradient(var(--sky-top), var(--sky-bottom));
+      overflow: hidden;
+      isolation: isolate;
+      animation: fadeOut 1s ease forwards;
+      animation-delay: 5s;
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    .intro-plane{
+      position:absolute;
+      left:0; top:0;
+      width: var(--plane-w);
+      height:auto;
+      transform: translate(-25vw, 60vh);
+      animation: intro-fly var(--intro-duration) linear forwards;
+      will-change: transform;
+      z-index: 2;
+    }
+
+    @keyframes intro-fly{
+      0%   { transform: translate(-25vw, 65vh) rotate(0deg); }
+      20%  { transform: translate(  0vw, 58vh) rotate(0deg); }
+      40%  { transform: translate( 30vw, 52vh) rotate(0deg); }
+      60%  { transform: translate( 60vw, 46vh) rotate(0deg); }
+      80%  { transform: translate( 90vw, 42vh) rotate(0deg); }
+      100% { transform: translate(120vw, 38vh) rotate(0deg); }
+    }
+
+    .intro-smoke{
+      position:absolute; width:16px; height:16px; border-radius:50%; pointer-events:none; z-index:1;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,200,220,.75) 40%, rgba(255,255,255,0) 70%);
+      filter: blur(0.5px);
+      animation: intro-puff 1.8s ease-out forwards;
+    }
+
+    @keyframes intro-puff{
+      0%{ transform: translate(0, 0) scale(.5); opacity:.9 }
+      100%{ transform: translate(-80px, -40px) scale(1.9); opacity:0 }
+    }
+
+    @media (max-width: 600px){
+      :root{
+        --smoke-interval: 120ms;
+        --plane-w: min(54vw, 30vh);
+      }
+    }
+
+    .countdown-wrapper {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      color: yellow;
+      font-family: 'Courier New', monospace;
+      z-index: 3000;
+    }
+
+    .countdown-wrapper h2 {
+      font-size: 1.5em;
+      margin-bottom: 0.5em;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    #countdown {
+      font-size: 2em;
+      letter-spacing: 0.1em;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    #countdown span {
+      display: inline-block;
+      min-width: 40px;
+    }
+
+    #countdown sup {
+      font-size: 0.5em;
+      vertical-align: super;
+    }
+
+    @media (max-width: 480px) {
+      #countdown {
+        font-size: 1.5em;
+      }
+
+      .countdown-wrapper h2 {
+        font-size: 1.2em;
+      }
+
+      #countdown span {
+        min-width: 30px;
+      }
+    }
+
+    #animacio-uzenet {
+      position: fixed;
+      bottom: 10px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 0.9em;
+      color: #222;
+      background-color: rgba(255, 255, 200, 0.8);
+      padding: 0.5em;
+      z-index: 9999;
+      display: none;
+      font-weight: bold;
+    }
+
+    /* --- NAVIGÁCIÓS SÁV --- */
+    .navbar {
+      background-color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1em 2em;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar a.logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      text-decoration: none;
+      color: yellowgreen;
+    }
+
+    .menu {
+      display: flex;
+      gap: 1em;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: 1em;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      margin: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        flex-direction: column;
+        background-color: #fff;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .menu.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    .container {
+      padding: 5vw;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 6vw;
+      margin-bottom: 0.2em;
+      animation: fadeInDown 1.5s ease-out;
+    }
+
+    p {
+      font-size: 4.5vw;
+      margin-bottom: 1.5em;
+      animation: fadeInUp 1.5s ease-out;
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 3em;
+      }
+
+      p {
+        font-size: 1.5em;
+      }
+    }
+
+    img {
+      width: 60%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      margin-bottom: 2em;
+    }
+
+    button {
+      padding: 1em 2.5em;
+      font-size: 1.1em;
+      background-color: yellow;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #f7e600;
+    }
+
+    /* MODÁL (felugró ablak) */
+    .modal {
+      display: none;
+    }
+    .color {
+      color: yellow;
+    }
+  
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #fefcc8;
+      font-family: 'Segoe UI', sans-serif;
+      color: #333;
+      text-align: center;
+    }
+
     /* ====== TELJES KÉPERNYŐS REPÜLŐ ANIMÁCIÓ (5 mp) ====== */
     :root{
       --intro-duration: 5s;
@@ -314,16 +581,24 @@ a img {
 </head>
 <body>
 
-  <!-- ====== TELJES KÉPERNYŐS REPÜLŐ OVERLAY ====== -->
-  <div class="intro-sky" id="intro-sky" aria-hidden="true">
-    <div class="countdown-wrapper">
-      <h2>MINDJÁRT ITT A NYÁR! :)</h2>
-      <div id="countdown"></div>
+  <!-- ANIMÁCIÓ + SZÁMLÁLÓ -->
+  <div class="intro-sky" id="intro-sky">
+    <img src="repulo.png" alt="Repülő" class="intro-plane">
+    <div class="countdown-wrapper" id="szamlalo">
+      <h2 class="color">MINDJÁRT ITT A NYÁR! :) </h2>
+      <div id="countdown">
+        <span id="nap">00</span><sup>N</sup> :
+        <span id="ora">00</span><sup>Ó</sup> :
+        <span id="perc">00</span><sup>P</sup> :
+        <span id="masodperc">00</span><sup>M</sup>
+      </div>
     </div>
-    <img src="repulo.png" class="intro-plane" id="intro-plane" alt="Repülőgép">
   </div>
 
-  <!-- MENÜSÁV -->
+  <!-- Alsó szöveg -->
+  <div id="animacio-uzenet">Pillanat, az animáció hamarosan véget ér!</div>
+
+<!-- MENÜSÁV -->
 
   <div class="container">
     <h1>VakációVágyó <br> 2026</h1>
@@ -346,6 +621,73 @@ a img {
 
   <p><b><i>Minden apró számít, tegyél egy picit Te is a repülőmalacba!</i></b></p>
   <p><b><i>Ne feledd! Sok kicsi, sokra megy!</i></b></p>
+
+  
+<script>
+ function showModal() {
+      document.getElementById('passwordModal').style.display = 'flex';
+    }
+
+    function checkPassword() {
+      const pw = document.getElementById('passInput').value;
+      if (pw === 'NY26') {
+        window.location.href = 'szamlalo.html';
+      } else {
+        alert('Hibás jelszó!');
+      }
+    }
+
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('active');
+    }
+
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.getElementById('passwordModal').style.display = 'none';
+      }
+    });
+
+    window.addEventListener('click', function(e) {
+      const modal = document.getElementById('passwordModal');
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
+
+
+  <script>
+    function frissitVisszaszamlalo() {
+      const celIdo = new Date("2026-06-01T00:00:00").getTime();
+      const most = new Date().getTime();
+      const kulonbseg = celIdo - most;
+
+      const nap = Math.floor(kulonbseg / (1000 * 60 * 60 * 24));
+      const ora = Math.floor((kulonbseg % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const perc = Math.floor((kulonbseg % (1000 * 60 * 60)) / (1000 * 60));
+      const masodperc = Math.floor((kulonbseg % (1000 * 60)) / 1000);
+
+      document.getElementById("nap").textContent = nap.toString().padStart(2, '0');
+      document.getElementById("ora").textContent = ora.toString().padStart(2, '0');
+      document.getElementById("perc").textContent = perc.toString().padStart(2, '0');
+      document.getElementById("masodperc").textContent = masodperc.toString().padStart(2, '0');
+    }
+
+    setInterval(frissitVisszaszamlalo, 1000);
+    frissitVisszaszamlalo();
+
+    window.addEventListener('load', () => {
+      const uzenet = document.getElementById('animacio-uzenet');
+      const intro = document.getElementById('intro-sky');
+
+      uzenet.style.display = 'block';
+
+      setTimeout(() => {
+        uzenet.style.display = 'none';
+        intro.style.display = 'none';
+      }, 5000);
+    });
+  </script>
 
   <script>
     /* ====== Repülő overlay logika ====== */
@@ -412,66 +754,6 @@ a img {
       timer = setTimeout(endIntro, DURATION);
     })();
 
-    /* ====== Számláló ====== */
-    (function(){
-      const countdownEl = document.getElementById("countdown");
-      const targetDate = new Date("2026-06-01T00:00:00").getTime();
-
-      function updateCountdown(){
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-
-        if(distance < 0){
-          countdownEl.innerHTML = "🌞 Eljött a nyár! 🌴";
-          return;
-        }
-
-        const days = Math.floor(distance / (1000*60*60*24));
-        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-        const seconds = Math.floor((distance % (1000*60)) / 1000);
-
-        countdownEl.innerHTML =
-          `<span>${String(days).padStart(2,'0')}</span>N ` +
-          `<span>${String(hours).padStart(2,'0')}</span>Ó ` +
-          `<span>${String(minutes).padStart(2,'0')}</span>P ` +
-          `<span>${String(seconds).padStart(2,'0')}</span>M`;
-      }
-
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-    })();
-
-    /* ====== Az oldal eredeti JS-e ====== */
-    function showModal() {
-      document.getElementById('passwordModal').style.display = 'flex';
-    }
-
-    function checkPassword() {
-      const pw = document.getElementById('passInput').value;
-      if (pw === 'NY26') {
-        window.location.href = 'szamlalo.html';
-      } else {
-        alert('Hibás jelszó!');
-      }
-    }
-
-    function toggleMenu() {
-      document.getElementById('navMenu').classList.toggle('active');
-    }
-
-    window.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        document.getElementById('passwordModal').style.display = 'none';
-      }
-    });
-
-    window.addEventListener('click', function(e) {
-      const modal = document.getElementById('passwordModal');
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-  </script>
+</script>
 </body>
 </html>
