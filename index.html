@@ -84,37 +84,28 @@
       }
     }
 
-    .countdown-wrapper {
-      position: absolute;
-      top: 20px;
-      width: 100%;
-      text-align: center;
-      color: yellow;
-      font-family: 'Courier New', monospace;
-      z-index: 3000;
-    }
+.countdown-wrapper h2 {
+  font-size: clamp(1rem, 4vw, 1.8rem); /* reszponzív méret */
+  margin-bottom: 0.5em;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
 
-    .countdown-wrapper h2 {
-      font-size: 1.5em;
-      margin-bottom: 0.5em;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    }
+#countdown {
+  font-size: clamp(1.2rem, 6vw, 2.5rem); /* kis kijelzőn kisebb, nagy kijelzőn nagyobb */
+  letter-spacing: 0.1em;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
 
-    #countdown {
-      font-size: 2em;
-      letter-spacing: 0.1em;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    }
+#countdown span {
+  display: inline-block;
+  min-width: auto;      /* ne legyen fix szélesség */
+  padding: 0 0.2em;     /* kis hely a számok között */
+}
 
-    #countdown span {
-      display: inline-block;
-      min-width: 40px;
-    }
-
-    #countdown sup {
-      font-size: 0.5em;
-      vertical-align: super;
-    }
+#countdown sup {
+  font-size: 0.5em;
+  vertical-align: super;
+}
 
     @media (max-width: 480px) {
       #countdown {
