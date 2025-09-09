@@ -199,5 +199,21 @@
 <img src="Dia3.jpg" alt="Folytatódjon a kaland 2026..." width="250px" height="500px">
 </a>
 
+<script>
+  function toggleMenu() {
+    document.getElementById('navMenu').classList.toggle('active');
+  }
+
+  // (opcionális) zárja be a menüt linkkattintásra
+  document.addEventListener('click', function (e) {
+    const menu = document.getElementById('navMenu');
+    const burger = document.querySelector('.hamburger');
+    if (menu && menu.classList.contains('active')) {
+      const clickedInside = menu.contains(e.target) || burger.contains(e.target);
+      if (!clickedInside) menu.classList.remove('active');
+    }
+  });
+</script>
+
 </body>
 </html>
