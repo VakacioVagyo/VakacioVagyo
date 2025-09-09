@@ -267,233 +267,6 @@
     /* MODÁL (felugró ablak) */
     .modal {
       display: none;
-    }
-    .color {
-      color: yellow;
-    }
-  
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #fefcc8;
-      font-family: 'Segoe UI', sans-serif;
-      color: #333;
-      text-align: center;
-    }
-
-    /* ====== TELJES KÉPERNYŐS REPÜLŐ ANIMÁCIÓ (5 mp) ====== */
-    :root{
-      --intro-duration: 5s;
-      --plane-w: min(40vw, 28vh);
-      --sky-top: #87ceeb;
-      --sky-bottom: #cfefff;
-      --smoke-interval: 70ms;
-    }
-
-    .intro-sky{
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 2000;
-      background: linear-gradient(var(--sky-top), var(--sky-bottom));
-      overflow: hidden;
-      isolation: isolate;
-    }
-
-    .intro-plane{
-      position:absolute;
-      left:0; top:0;
-      width: var(--plane-w);
-      height:auto;
-      transform: translate(-25vw, 60vh);
-      animation: intro-fly var(--intro-duration) linear forwards;
-      will-change: transform;
-      z-index: 2;
-    }
-
-    @keyframes intro-fly{
-      0%   { transform: translate(-25vw, 65vh) rotate(0deg); }
-      20%  { transform: translate(  0vw, 58vh) rotate(0deg); }
-      40%  { transform: translate( 30vw, 52vh) rotate(0deg); }
-      60%  { transform: translate( 60vw, 46vh) rotate(0deg); }
-      80%  { transform: translate( 90vw, 42vh) rotate(0deg); }
-      100% { transform: translate(120vw, 38vh) rotate(0deg); }
-    }
-
-    .intro-smoke{
-      position:absolute; width:16px; height:16px; border-radius:50%; pointer-events:none; z-index:1;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,200,220,.75) 40%, rgba(255,255,255,0) 70%);
-      filter: blur(0.5px);
-      animation: intro-puff 1.8s ease-out forwards;
-    }
-    @keyframes intro-puff{
-      0%{ transform: translate(0, 0) scale(.5); opacity:.9 }
-      100%{ transform: translate(-80px, -40px) scale(1.9); opacity:0 }
-    }
-
-    @media (max-width: 600px){
-      :root{
-        --smoke-interval: 120ms;
-        --plane-w: min(54vw, 30vh);
-      }
-    }
-
-    /* ====== Visszaszámláló stílus ====== */
-    .countdown-wrapper {
-      position: absolute;
-      top: 20px;
-      width: 100%;
-      text-align: center;
-      color: yellow;
-      font-family: 'Courier New', monospace;
-      z-index: 3;
-    }
-
-    .countdown-wrapper h2 {
-      font-size: 1.5em;
-      margin-bottom: 0.5em;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    }
-
-    #countdown {
-      font-size: 2em;
-      letter-spacing: 0.1em;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    }
-
-    #countdown span {
-      display: inline-block;
-      min-width: 40px;
-    }
-
-    /* --- NAVIGÁCIÓS SÁV --- */
-    .navbar {
-      background-color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1em 2em;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .navbar a.logo {
-      font-size: 1.5em;
-      font-weight: bold;
-      text-decoration: none;
-      color: yellowgreen;
-    }
-
-    .menu {
-      display: flex;
-      gap: 1em;
-    }
-
-    .menu a {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      font-size: 1em;
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-    }
-
-    .hamburger div {
-      width: 25px;
-      height: 3px;
-      background-color: #333;
-      margin: 4px;
-    }
-
-    @media (max-width: 768px) {
-      .menu {
-        display: none;
-        flex-direction: column;
-        background-color: #fff;
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        border-radius: 10px;
-        overflow: hidden;
-      }
-
-      .menu.active {
-        display: flex;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-    }
-
-    .container {
-      padding: 5vw;
-      max-width: 600px;
-      margin: auto;
-    }
-
-    h1 {
-      font-size: 6vw;
-      margin-bottom: 0.2em;
-      animation: fadeInDown 1.5s ease-out;
-    }
-
-    p {
-      font-size: 4.5vw;
-      margin-bottom: 1.5em;
-      animation: fadeInUp 1.5s ease-out;
-    }
-
-    @media (min-width: 768px) {
-      h1 {
-        font-size: 3em;
-      }
-
-      p {
-        font-size: 1.5em;
-      }
-    }
-
-    img {
-      width: 60%;
-      max-width: 400px;
-      height: auto;
-      border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      margin-bottom: 2em;
-    }
-
-    button {
-      padding: 1em 2.5em;
-      font-size: 1.1em;
-      background-color: yellow;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin-top: 10px;
-    }
-
-    button:hover {
-      background-color: #f7e600;
-    }
-
-    /* MODÁL (felugró ablak) */
-    .modal {
-      display: none;
       position: fixed;
       z-index: 999;
       left: 0;
@@ -577,6 +350,114 @@ a img {
   box-shadow: none;
 }
 
+/* ====== ÚJ: Reszponzív rács a számlálóhoz ====== */
+.countdown-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap: clamp(12px, 3vw, 32px);
+  align-items:center;
+  justify-items:center;
+  padding: 0 8px;
+}
+.cd-item{ text-align:center; min-width:0; }
+.cd-value{
+  font-weight:800;
+  line-height:1;
+  letter-spacing:.02em;
+  font-size: clamp(32px, 12vw, 96px);
+  white-space:nowrap;
+}
+.cd-label{
+  margin-top: clamp(6px, 1.2vw, 10px);
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-size: clamp(10px, 2.5vw, 18px);
+  opacity:.9;
+}
+@media (max-width: 480px){
+  .countdown-grid{
+    gap: clamp(8px, 2.5vw, 16px);
+  }
+}
+
+/* ====== ÚJ: kézírás + feltűnő animáció CSAK a „Fogjunk össze…” szövegre ====== */
+.keziras{
+  font-family: "Segoe Print","Bradley Hand","Brush Script MT","Comic Sans MS",cursive;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: .01em;
+  display: inline-block;
+}
+
+/* látványos belibbenés + aláhúzás + fénycsík; 5 ms késleltetéssel indul */
+.feltuno-iras{
+  display:inline-block;
+  position:relative;
+  will-change: transform, filter, opacity;
+  animation: scribble-in 1200ms cubic-bezier(.22,1,.36,1) both,
+             micro-wobble 1800ms ease-in-out 1200ms 1;
+  animation-delay: 5ms; /* <-- 5 ms késleltetés */
+}
+
+/* kézzel húzott aláhúzás (balról jobbra rajzolva) */
+.feltuno-iras::after{
+  content:"";
+  position:absolute;
+  left:0; bottom:-0.18em;
+  height:0.14em;
+  width:100%;
+  background: currentColor;
+  border-radius:999px;
+  transform: scaleX(0);
+  transform-origin:left center;
+  opacity:.85;
+  /* eredetileg 650ms volt – +5ms késleltetés */
+  animation: underline-draw 900ms ease-out 655ms forwards;
+}
+
+/* fénycsík suhanás */
+.feltuno-iras::before{
+  content:"";
+  position:absolute;
+  inset:-0.05em -0.1em;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+  mix-blend-mode: screen;
+  transform: translateX(-120%);
+  opacity:0;
+  pointer-events:none;
+  /* eredetileg 300ms volt – +5ms késleltetés */
+  animation: shine-sweep 1100ms ease-out 305ms forwards;
+}
+
+/* belibbenés */
+@keyframes scribble-in{
+  0%{ opacity:0; filter: blur(6px); transform: translateY(.45em) rotate(-2.2deg) skewX(-6deg) scale(.98); }
+  60%{ filter: blur(1px); transform: translateY(-.06em) rotate(.6deg) skewX(2deg) scale(1.02); }
+  100%{ opacity:1; filter:none; transform:none; }
+}
+/* finom „kézírás” billegés */
+@keyframes micro-wobble{
+  0%{ transform: rotate(.2deg); }
+  25%{ transform: rotate(-.25deg); }
+  50%{ transform: rotate(.15deg); }
+  75%{ transform: rotate(-.15deg); }
+  100%{ transform:none; }
+}
+/* aláhúzás kirajzolása */
+@keyframes underline-draw{ to{ transform: scaleX(1); } }
+/* fénycsík */
+@keyframes shine-sweep{
+  0%{ transform: translateX(-120%); opacity:0; }
+  30%{ opacity:.7; }
+  100%{ transform: translateX(120%); opacity:0; }
+}
+/* mozgáscsökkentés tiszteletben tartása */
+@media (prefers-reduced-motion: reduce){
+  .feltuno-iras{ animation:none; }
+  .feltuno-iras::after,
+  .feltuno-iras::before{ animation:none; transform:none; opacity:1; }
+}
   </style>
 </head>
 <body>
@@ -585,13 +466,28 @@ a img {
   <div class="intro-sky" id="intro-sky">
     <img src="repulo.png" alt="Repülő" class="intro-plane">
     <div class="countdown-wrapper" id="szamlalo">
-      <h2 class="color">MINDJÁRT ITT A NYÁR! :) </h2>
-      <div id="countdown">
-        <span id="nap">00</span><sup>N</sup> :
-        <span id="ora">00</span><sup>Ó</sup> :
-        <span id="perc">00</span><sup>P</sup> :
-        <span id="masodperc">00</span><sup>M</sup>
+      <h2 class="color">MINDJÁRT ITT A NYÁR!</h2>
+
+      <!-- ÚJ: rácsos, feliratos számláló a képen látható elrendezéshez -->
+      <div id="countdown" class="countdown-grid" aria-label="Visszaszámláló 2026. június 1-ig">
+        <div class="cd-item" aria-label="Hátralévő napok">
+          <div class="cd-value" id="nap">00</div>
+          <div class="cd-label">NAP</div>
+        </div>
+        <div class="cd-item" aria-label="Hátralévő órák">
+          <div class="cd-value" id="ora">00</div>
+          <div class="cd-label">ÓRA</div>
+        </div>
+        <div class="cd-item" aria-label="Hátralévő percek">
+          <div class="cd-value" id="perc">00</div>
+          <div class="cd-label">PERC</div>
+        </div>
+        <div class="cd-item" aria-label="Hátralévő másodpercek">
+          <div class="cd-value" id="masodperc">00</div>
+          <div class="cd-label">M.PERC</div>
+        </div>
       </div>
+      <!-- /ÚJ -->
     </div>
   </div>
 
@@ -602,7 +498,7 @@ a img {
 
   <div class="container">
     <h1>VakációVágyó <br> 2026</h1>
-    <p><b><i>A nagy utazás sok kis aprópénzzel kezdődik!</i></b></p>
+    <p><b><i><span class="keziras feltuno-iras">Fogjunk össze 🤝, tegyünk félre 💰, és utazzunk az egyenlítő környékére. 🌎</span></i></b></p>
 
     <img src="kep.png" alt="Malacpersely utazásra készen">
 

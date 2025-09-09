@@ -63,27 +63,32 @@
       margin: 4px;
     }
 
-    @media (max-width: 768px) {
-      .menu {
-        display: none;
-        flex-direction: column;
-        background-color: #fff;
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        border-radius: 10px;
-        overflow: hidden;
-      }
+@media (max-width: 768px) {
+  /* a hamburger továbbra is látszódjon mobilon */
+  .hamburger {
+    display: flex;
+    -webkit-tap-highlight-color: transparent;
+  }
 
-      .menu.active {
-        display: flex;
-      }
+  /* >>> EZT használd a menüre <<< */
+  #navMenu {
+    display: none;                /* alapból rejtve */
+    position: absolute;           /* a navbarhoz igazítva */
+    top: 100%;                    /* KÖZVETLENÜL a sáv alá kerül */
+    right: 20px;
+    left: auto;
+    z-index: 3000;                /* a tartalom fölé hozza */
+    flex-direction: column;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    overflow: hidden;
+  }
 
-      .hamburger {
-        display: flex;
-      }
-    }
+  #navMenu.active {
+    display: flex;                /* toggleMenu() ezt kapcsolja */
+  }
+}
 
     .container {
       padding: 5vw;
