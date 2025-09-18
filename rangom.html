@@ -105,9 +105,95 @@
       .field{ flex-direction: column; }
       button{ width: 100%; }
     }
+    /* NAVIGÁCIÓS SÁV */
+    .navbar {
+      background-color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1em 2em;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar a.logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      text-decoration: none;
+      color: yellowgreen;
+    }
+
+    .menu {
+      display: flex;
+      gap: 1em;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: 1em;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: #333;
+      margin: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .menu {
+        display: none;
+        flex-direction: column;
+        background-color: #fff;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .menu.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+
+    .center {
+      text-align: center;
+    }
   </style>
 </head>
 <body>
+   <div class="navbar center">
+    <a href="index.html" class="logo">VakációVágyó 2026</a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+      <div class="menu" id="navMenu">
+      <a href="szamlalo.html">Számláló</a>
+      <a href="befizetesek.html">Befizetések</a>
+      <a href="eldujra.html">Éld újra</a>
+      <a href="akciok.html">Akciók</a>
+      <a href="tudnivalok.html">Információk</a>
+    </div>
+  </div>
+
   <div class="wrap">
     <h1><i>Rangom</i></h1>
     <p class="helper">Írd be a négyjegyű születési éved, majd kattints a „Lekérdezés” gombra. <br> Nézd meg az elért pontszámodat, rangodat.</p>
@@ -158,6 +244,12 @@
         if(e.key === 'Enter'){ showResult(); }
       });
     })();
+
+        // NAVIGÁCIÓS MENÜ
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('active');
+    }
+
   </script>
 </body>
 </html>
