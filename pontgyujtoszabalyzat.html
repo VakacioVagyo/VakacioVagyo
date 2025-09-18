@@ -65,6 +65,14 @@
       display: table;           /* desktopon normál tábla */
     }
 
+    .kozep {
+  display: block;       /* alapból az <img> inline elem, így nem lehet margóval középre rakni */
+  margin-left: auto;    /* bal margó automatikusan számolódik */
+  margin-right: auto;   /* jobb margó automatikusan számolódik */
+  max-width: 100%;      /* mobilbarát */
+  height: auto;         /* arányosan méretezve */
+}
+
     table th, table td {
       border: 1px solid #ccc;
       padding: 10px;
@@ -90,13 +98,19 @@
     }
 
     .centered-image {
-  display: block;        /* blokkszintű elem legyen */
-  margin: 1rem auto;     /* automatikus margó = középre igazítás */
-  max-width: 90%;        /* mobilon ne lógjon túl */
-  height: auto;          /* arányosan méretezve */
-  text-align: center;
-}
+      display: block;        /* blokkszintű elem legyen */
+      margin: 1rem auto;     /* automatikus margó = középre igazítás */
+      max-width: 90%;        /* mobilon ne lógjon túl */
+      height: auto;          /* arányosan méretezve */
+      text-align: center;
+    }
 
+    /* 🔧 Mobilbarát képek (globálisan minden img-re) */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
 
     /* --- Mobilbarát kiegészítések --- */
     @media (max-width: 768px) {
@@ -123,10 +137,10 @@
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         white-space: nowrap;
-          display: flex;
-  justify-content: center;      /* középre igazítja */
-  overflow-x: auto;             /* ha kell, görgethető */
-  -webkit-overflow-scrolling: touch;
+        display: flex;
+        justify-content: center;      /* középre igazítja */
+        overflow-x: auto;             /* ha kell, görgethető */
+        -webkit-overflow-scrolling: touch;
       }
       table th, table td {
         padding: 10px 12px;
@@ -142,6 +156,20 @@
       }
       ul { padding-left: 1.1rem; }
     }
+
+    .img1{
+      width: 90%;
+      max-width: 700px;
+      height: auto;
+      display: block;
+      margin: 2em auto;
+    }
+
+    .img2 {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -154,6 +182,7 @@
     <h1>VakációVágyó Pontgyűjtő Rendszer</h1>
     <p>A VakációVágyó weboldal pontgyűjtő rendszere lehetőséget biztosít a felhasználók számára, hogy befizetéseik után pontokat szerezzenek, és ezek alapján különböző rangokat, valamint vásárlási utalványokat érjenek el.</p>
 
+    <div style="text-align: center;" class="img1 img2"><img src="ötegypont.jpg" alt="Pontrendszer" height="150px" width="600px"></div>
     <h2>1. A pontgyűjtés alapelvei</h2>
     <ul>
       <li>Minden befizetett <strong>5000 Ft után 1 pont</strong> kerül jóváírásra a felhasználó pontszámláján.</li>
@@ -178,7 +207,7 @@
       <tr>
         <td>Kalandor</td>
         <td>15–39 pont</td>
-        <td>1500 Ft</td>
+        <td>1000 Ft</td>
       </tr>
       <tr>
         <td>Vakáció Mester</td>
@@ -188,7 +217,7 @@
       <tr>
         <td>Horizontkutató</td>
         <td>62–68 pont</td>
-        <td>5500 Ft</td>
+        <td>5000 Ft</td>
       </tr>
     </table>
 
@@ -209,14 +238,15 @@
 
     <h2>4. Záró rendelkezések</h2>
     <ul>
-      <li>Az utalványok utalása minden ranglépés esetén kizárólag egyszer kerül utalásra így összesen egy felhasználó maximum 10.000 - Ft értékben szerezhet utalványt a ranglépései során.</li>
+      <li>A pontgyűjtés <b>nem függ semelyik</b> meghirdetett akciótól sem.</li>
+      <li>Az utalványok utalása minden ranglépés esetén kizárólag egyszer kerül utalásra így összesen egy felhasználó maximum 9.000 - Ft értékben szerezhet utalványt a ranglépései során.</li>
       <li>Ha <b>elírást tapasztalsz a rangodban, vagy esetleg a pontszámodban, </b>akkor jelezd kérlek azt a <b>vakaciovagyo@gmail.com </b>email címen.</li>
       <li><b>A rendszerben való részvétel automatikusan a szabályzat elfogadását jelenti.</b></li>
     </ul>
   </div>
 
   <div class="centered-image">
-     <img class="bottom-img" src="repulomalac.jpg" alt="Repülőmalac"> <br> Röfi, a repülőmalac :)
+     <img class="bottom-img kozep" src="repulomalac.jpg" alt="Repülőmalac"> <br> Röfi, a repülőmalac :)
   
   </div>
 </body>
