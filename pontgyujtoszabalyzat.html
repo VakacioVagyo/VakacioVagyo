@@ -5,6 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pontgyűjtő Rendszer - Játékszabályzat</title>
   <style>
+  /* --- Alap táblázat --- */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    display: table;           /* desktopon normál tábla */
+    font-size: 1rem;          /* alap betűméret */
+  }
+
+  table th, table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    word-break: keep-all;
+    white-space: nowrap;      /* segít a görgethetőségnél mobilon */
+  }
+
+  table th {
+    background: #ffcc66;
+  }
+
+  table tr:nth-child(even) {
+    background: #f9f9f9;
+  }
+
+  /* --- Mobilbarát táblázat --- */
+  @media (max-width: 600px) {
+    table {
+      display: block;              /* görgethető blokk */
+      overflow-x: auto;            /* vízszintes görgetés */
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+      font-size: 0.85rem;          /* kisebb betűk mobilon */
+    }
+    table th, table td {
+      padding: 6px 8px;            /* kisebb cellaméret */
+    }
+  }
+
+  @media (max-width: 400px) {
+    table {
+      font-size: 0.75rem;          /* még kisebb betű mobilon */
+    }
+    table th, table td {
+      padding: 5px 6px;
+    }
+  }
+</style>
+
+  <style>
   
     *, *::before, *::after { box-sizing: border-box; }
 
