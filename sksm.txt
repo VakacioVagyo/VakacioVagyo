@@ -2,7 +2,7 @@
       <img src="sksm.jpg" alt="Akció">
       <div class="card-body">
         <h3 class="card-title"> Sok kicsi, sokra megy! </h3>
-        <p class="card-text"> <b>Promóciós időszak: <br> 2025. október 06. - 2026. május 31. </b> <br> Résztvevők: <br> Orosz Kristóf </p>
-        <a href="sksm.html"><button>TOVÁBB A RÉSZLETEKHEZ </button></a>
+        <p class="card-text"> <b>Promóciós időszak: <br> 2025. október 01. - 2026. június 05.</b> <br> Résztvevők: <br> Orosz Kristóf </p>
+        <a href="sksm.html"><button>JELENTKEZEM A JÁTÉKRA! </button></a>
       </div>
     </article> <br>
