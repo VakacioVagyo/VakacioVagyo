@@ -5,17 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VakációVágyó 2026</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
-      margin: 0;
-      padding: 0;
-      background-color: #fefcc8;
+      margin: 0; padding: 0; text-align: center; color:#333;
+      background-color:#fefcc8;
       font-family: 'Segoe UI', sans-serif;
-      color: #333;
-      text-align: center;
+      min-height:100vh; display:flex; flex-direction:column;
     }
 
     :root{
@@ -23,585 +18,110 @@
       --plane-w: min(40vw, 28vh);
       --sky-top: #87ceeb;
       --sky-bottom: #cfefff;
-      --smoke-interval: 70ms;
     }
 
+    /* ===== Intro: kék háttér + repülő + SÁRGA felirat ===== */
     .intro-sky{
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 2000;
+      position: fixed; inset:0; width:100vw; height:100vh; z-index:2000;
       background: linear-gradient(var(--sky-top), var(--sky-bottom));
-      overflow: hidden;
-      isolation: isolate;
-      animation: fadeOut 1s ease forwards;
-      animation-delay: 5s;
+      overflow:hidden; isolation:isolate;
     }
-
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to { opacity: 0; visibility: hidden; }
-    }
-
-    .intro-plane{
-      position:absolute;
-      left:0; top:0;
-      width: var(--plane-w);
-      height:auto;
-      transform: translate(-25vw, 60vh);
-      animation: intro-fly var(--intro-duration) linear forwards;
-      will-change: transform;
-      z-index: 2;
-    }
-
+    .intro-plane{ position:absolute; left:0; top:0; width:var(--plane-w); height:auto;
+      transform: translate(-25vw, 60vh); will-change:transform; z-index:2;
+      animation: intro-fly var(--intro-duration) linear forwards; }
     @keyframes intro-fly{
-      0%   { transform: translate(-25vw, 65vh) rotate(0deg); }
-      20%  { transform: translate(  0vw, 58vh) rotate(0deg); }
-      40%  { transform: translate( 30vw, 52vh) rotate(0deg); }
-      60%  { transform: translate( 60vw, 46vh) rotate(0deg); }
-      80%  { transform: translate( 90vw, 42vh) rotate(0deg); }
-      100% { transform: translate(120vw, 38vh) rotate(0deg); }
+      0%{ transform: translate(-25vw, 65vh); }
+      20%{ transform: translate(0vw, 58vh); }
+      40%{ transform: translate(30vw, 52vh); }
+      60%{ transform: translate(60vw, 46vh); }
+      80%{ transform: translate(90vw, 42vh); }
+      100%{ transform: translate(120vw, 38vh); }
     }
 
-    .intro-smoke{
-      position:absolute; width:16px; height:16px; border-radius:50%; pointer-events:none; z-index:1;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.95), rgba(255,200,220,.75) 40%, rgba(255,255,255,0) 70%);
-      filter: blur(0.5px);
-      animation: intro-puff 1.8s ease-out forwards;
+    .intro-title{
+      position:absolute; top:24px; left:50%; transform:translateX(-50%);
+      color: #ffd900; text-shadow:0 2px 6px rgba(0,0,0,.45);
+      font-family: 'Courier New', monospace; font-weight:800;
+      font-size: clamp(22px, 5.2vw, 42px);
+      letter-spacing:.06em; z-index:3;
+      user-select:none;
     }
 
-    @keyframes intro-puff{
-      0%{ transform: translate(0, 0) scale(.5); opacity:.9 }
-      100%{ transform: translate(-80px, -40px) scale(1.9); opacity:0 }
+    /* ===== Fő tartalom ===== */
+    header h1{ margin:16px 0; font-size: clamp(28px, 6vw, 64px); }
+
+    .main{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px;
+           padding:24px; visibility:hidden; }
+
+    /* Gombok: laptopon egymás mellett */
+    .gombok{ display:flex; flex-direction:column; gap:16px; justify-content:center; align-items:center;
+             width:min(92vw, 820px); flex-wrap:wrap; }
+    .btn{
+      background:#ffd900; border:none; border-radius:28px; color:#222; font-weight:700;
+      padding:14px 28px; cursor:pointer; transition: transform .15s ease, filter .15s ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+      font-size: clamp(16px, 2.2vw, 20px);
+      min-width:180px;
+    }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    .btn:active{ transform: translateY(0); }
+
+        .btn2{
+      background:blue; border:none; border-radius:28px; color:yellow; font-weight:700;
+      padding:14px 28px; cursor:pointer; transition: transform .15s ease, filter .15s ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+      font-size: clamp(16px, 2.2vw, 20px);
+      min-width:180px;
+    }
+    .btn2:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    .btn2:active{ transform: translateY(0); }
+
+    
+    @media (min-width: 992px){
+      .gombok{ flex-direction:row; }
     }
 
-    @media (max-width: 600px){
-      :root{
-        --smoke-interval: 120ms;
-        --plane-w: min(54vw, 30vh);
-      }
-    }
+    footer{padding:12px; font-size:.95rem; color:#555; margin-top:auto;}
 
-    .countdown-wrapper {
-      position: absolute;
-      top: 20px;
-      width: 100%;
-      text-align: center;
-      color: yellow;
-      font-family: 'Courier New', monospace;
-      z-index: 3000;
-    }
-
-    .countdown-wrapper h2 {
-      font-size: 1.5em;
-      margin-bottom: 0.5em;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    }
-
-    #countdown {
-      font-size: 2em;
-      letter-spacing: 0.1em;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
-    }
-
-    #countdown span {
-      display: inline-block;
-      min-width: 40px;
-    }
-
-    #countdown sup {
-      font-size: 0.5em;
-      vertical-align: super;
-    }
-
-    @media (max-width: 480px) {
-      #countdown {
-        font-size: 1.5em;
-      }
-
-      .countdown-wrapper h2 {
-        font-size: 1.2em;
-      }
-
-      #countdown span {
-        min-width: 30px;
-      }
-    }
-
-    #animacio-uzenet {
-      position: fixed;
-      bottom: 10px;
-      left: 0;
-      width: 100%;
-      text-align: center;
-      font-size: 0.9em;
-      color: #222;
-      background-color: rgba(255, 255, 200, 0.8);
-      padding: 0.5em;
-      z-index: 9999;
-      display: none;
-      font-weight: bold;
-    }
-
-    /* --- NAVIGÁCIÓS SÁV --- */
-    .navbar {
-      background-color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1em 2em;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .navbar a.logo {
-      font-size: 1.5em;
-      font-weight: bold;
-      text-decoration: none;
-      color: yellowgreen;
-    }
-
-    .menu {
-      display: flex;
-      gap: 1em;
-    }
-
-    .menu a {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      font-size: 1em;
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-    }
-
-    .hamburger div {
-      width: 25px;
-      height: 3px;
-      background-color: #333;
-      margin: 4px;
-    }
-
-    @media (max-width: 768px) {
-      .menu {
-        display: none;
-        flex-direction: column;
-        background-color: #fff;
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        border-radius: 10px;
-        overflow: hidden;
-      }
-
-      .menu.active {
-        display: flex;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-    }
-
-    .container {
-      padding: 5vw;
-      max-width: 600px;
-      margin: auto;
-    }
-
-    h1 {
-      font-size: 6vw;
-      margin-bottom: 0.2em;
-      animation: fadeInDown 1.5s ease-out;
-    }
-
-    p {
-      font-size: 4.5vw;
-      margin-bottom: 1.5em;
-      animation: fadeInUp 1.5s ease-out;
-    }
-
-    @media (min-width: 768px) {
-      h1 {
-        font-size: 3em;
-      }
-
-      p {
-        font-size: 1.5em;
-      }
-    }
-
-    img {
-      width: 60%;
-      max-width: 400px;
-      height: auto;
-      border-radius: 20px;
-      margin-bottom: 2em;
-    }
-
-    button {
-      padding: 1em 2.5em;
-      font-size: 1.1em;
-      background-color: yellow;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin-top: 10px;
-    }
-
-    button:hover {
-      background-color: #f7e600;
-    }
-
-/* MODÁL – teljes képernyős, mobilbarát overlay */
-.modal{
-  display:none;                 /* JS nyitja: display:flex/flex helyett most nem kell */
-  position:fixed;
-  inset:0;
-  width:100svw;                 /* visual viewport szélesség */
-  height:100svh;                /* visual viewport magasság */
-  background:rgba(0,0,0,.5);
-  z-index:999;
+h1 {
+    font-size: 6vw;
 }
 
-/* A dobozt mindig a képernyő közepére tesszük */
-.modal-content{
-  position:fixed;
-  left:50svw;                   /* visual viewport közepe */
-  top:50svh;
-  transform:translate(-50%,-50%);
-  width:min(92svw, 400px);      /* ne lógjon ki kis kijelzőn sem */
-  max-height:min(92svh, 520px);
-  overflow:auto;                /* ha kicsi a kijelző, belső görgetés */
-  background:#fff;
-  padding:2em;
-  border-radius:20px;
-  text-align:center;
-  box-sizing:border-box;
-}
-
-/* Fallback régebbi böngészőkre, ahol nincs svw/svh */
-@supports not (width: 1svw){
-  .modal{ width:100vw; height:100vh; }
-  .modal-content{
-    left:50vw; top:50vh; transform:translate(-50%,-50%);
-    width:min(92vw, 400px); max-height:min(92vh, 520px);
-  }
-}
-
-    input[type="password"] {
-      padding: 0.7em;
-      font-size: 1em;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      width: 100%;
-      margin-bottom: 1em;
-    }
-
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (min-width: 992px) {
-      .container button {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        margin: 0;
-        z-index: 1100;
-      }
-    }
-
-    @media (min-width: 992px) {
-      .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .container img {
-        margin-bottom: 0;
-      }
-
-      .extra-text {
-        display: inline-block;
-        vertical-align: top;
-        margin-left: 2em;
-        max-width: 300px;
-        text-align: left;
-      }
-
-      .container img,
-      .extra-text {
-        display: inline-block;
-      }
-    }
-    /* Csak a smartlinetravel linkelt képre alkalmazzuk */
-a[href*="smartlinetravel.hu"] { -webkit-tap-highlight-color: transparent; }
-a[href*="smartlinetravel.hu"]:focus { outline: none; }
-a[href*="smartlinetravel.hu"] img { border: 0; outline: none; }
-a img {
-  border: none;
-  outline: none;
-  box-shadow: none;
-}
-
-/* ====== ÚJ: Reszponzív rács a számlálóhoz ====== */
-.countdown-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap: clamp(12px, 3vw, 32px);
-  align-items:center;
-  justify-items:center;
-  padding: 0 8px;
-}
-.cd-item{ text-align:center; min-width:0; }
-.cd-value{
-  font-weight:800;
-  line-height:1;
-  letter-spacing:.02em;
-  font-size: clamp(32px, 12vw, 96px);
-  white-space:nowrap;
-}
-.cd-label{
-  margin-top: clamp(6px, 1.2vw, 10px);
-  font-weight:600;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  font-size: clamp(10px, 2.5vw, 18px);
-  opacity:.9;
-}
-@media (max-width: 480px){
-  .countdown-grid{
-    gap: clamp(8px, 2.5vw, 16px);
-  }
-}
-
-/* ====== ÚJ: kézírás + feltűnő animáció CSAK a „Fogjunk össze…” szövegre ====== */
-.keziras{
-  font-family: "Segoe Print","Bradley Hand","Brush Script MT","Comic Sans MS",cursive;
-  font-weight: 700;
-  font-style: italic;
-  letter-spacing: .01em;
-  display: inline-block;
-}
-
-/* látványos belibbenés + aláhúzás + fénycsík; 5 ms késleltetéssel indul */
-.feltuno-iras{
-  display:inline-block;
-  position:relative;
-  will-change: transform, filter, opacity;
-  animation: scribble-in 1200ms cubic-bezier(.22,1,.36,1) both,
-             micro-wobble 1800ms ease-in-out 1200ms 1;
-  animation-delay: 5ms; /* <-- 5 ms késleltetés */
-}
-
-/* kézzel húzott aláhúzás (balról jobbra rajzolva) */
-.feltuno-iras::after{
-  content:"";
-  position:absolute;
-  left:0; bottom:-0.18em;
-  height:0.14em;
-  width:100%;
-  background: currentColor;
-  border-radius:999px;
-  transform: scaleX(0);
-  transform-origin:left center;
-  opacity:.85;
-  /* eredetileg 650ms volt – +5ms késleltetés */
-  animation: underline-draw 900ms ease-out 655ms forwards;
-}
-
-/* fénycsík suhanás */
-.feltuno-iras::before{
-  content:"";
-  position:absolute;
-  inset:-0.05em -0.1em;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
-  mix-blend-mode: screen;
-  transform: translateX(-120%);
-  opacity:0;
-  pointer-events:none;
-  /* eredetileg 300ms volt – +5ms késleltetés */
-  animation: shine-sweep 1100ms ease-out 305ms forwards;
-}
-
-/* belibbenés */
-@keyframes scribble-in{
-  0%{ opacity:0; filter: blur(6px); transform: translateY(.45em) rotate(-2.2deg) skewX(-6deg) scale(.98); }
-  60%{ filter: blur(1px); transform: translateY(-.06em) rotate(.6deg) skewX(2deg) scale(1.02); }
-  100%{ opacity:1; filter:none; transform:none; }
-}
-/* finom „kézírás” billegés */
-@keyframes micro-wobble{
-  0%{ transform: rotate(.2deg); }
-  25%{ transform: rotate(-.25deg); }
-  50%{ transform: rotate(.15deg); }
-  75%{ transform: rotate(-.15deg); }
-  100%{ transform:none; }
-}
-/* aláhúzás kirajzolása */
-@keyframes underline-draw{ to{ transform: scaleX(1); } }
-/* fénycsík */
-@keyframes shine-sweep{
-  0%{ transform: translateX(-120%); opacity:0; }
-  30%{ opacity:.7; }
-  100%{ transform: translateX(120%); opacity:0; }
-}
-/* mozgáscsökkentés tiszteletben tartása */
-@media (prefers-reduced-motion: reduce){
-  .feltuno-iras{ animation:none; }
-  .feltuno-iras::after,
-  .feltuno-iras::before{ animation:none; transform:none; opacity:1; }
-}
   </style>
 </head>
 <body>
 
-  <!-- ANIMÁCIÓ + SZÁMLÁLÓ -->
+  <!-- ===== KÉK INTRO RÉTEG: repülő + nagy sárga felirat ===== -->
   <div class="intro-sky" id="intro-sky">
-    <img src="repulo.png" alt="Repülő" class="intro-plane">
-    <div class="countdown-wrapper" id="szamlalo">
-      <h2 class="color">MINDJÁRT ITT A NYÁR!</h2>
-
-      <!-- ÚJ: rácsos, feliratos számláló a képen látható elrendezéshez -->
-      <div id="countdown" class="countdown-grid" aria-label="Visszaszámláló 2026. június 1-ig">
-        <div class="cd-item" aria-label="Hátralévő napok">
-          <div class="cd-value" id="nap">00</div>
-          <div class="cd-label">NAP</div>
-        </div>
-        <div class="cd-item" aria-label="Hátralévő órák">
-          <div class="cd-value" id="ora">00</div>
-          <div class="cd-label">ÓRA</div>
-        </div>
-        <div class="cd-item" aria-label="Hátralévő percek">
-          <div class="cd-value" id="perc">00</div>
-          <div class="cd-label">PERC</div>
-        </div>
-        <div class="cd-item" aria-label="Hátralévő másodpercek">
-          <div class="cd-value" id="masodperc">00</div>
-          <div class="cd-label">M.PERC</div>
-        </div>
-      </div>
-      <!-- /ÚJ -->
-    </div>
+    <img src="repulo.png" alt="Repülő" class="intro-plane" id="intro-plane">
+    <h2 class="intro-title">JUHÉÉ! ITT A NYÁR! <br> <br> Gyorsan eltelik, élvezd minden percét!</h2>
   </div>
 
-  <!-- Alsó szöveg -->
-  <div id="animacio-uzenet">Pillanat, az animáció hamarosan véget ér!</div>
-
-<!-- MENÜSÁV -->
-
-  <div class="container">
+  <!-- ===== FŐ TARTALOM: intro után látható ===== -->
+  <header>
     <h1>VakációVágyó <br> 2026</h1>
-    <p><b><i><span class="keziras feltuno-iras">Fogjunk össze 🤝, tegyünk félre 💰, és utazzunk az egyenlítő környékére. 🌎</span></i></b></p>
+  </header>
 
-    <img src="kep.png" alt="Malacpersely utazásra készen">
+  <main class="main" id="main">
+    <section class="gombok" aria-label="Fő műveletek">
+      <a href="#"><button class="btn2" id="gomb1">IRÁNY KÜLFÖLD</button> </a>
+      <a href="eldujra2.html"><button class="btn" id="gomb2">ÉLD ÚJRA</button></a>
+      <a href="https://www.google.com/"><button class="btn" id="gomb3">BEZÁRÁS</button></a>
+    </section>
+  </main>
 
-    <button onclick="showModal()">BEJELENTKEZÉS</button>
-  </div>
-
-  <!-- MODÁL: Felugró ablak -->
-  <div id="passwordModal" class="modal">
-    <div class="modal-content">
-      <h3>Jelszó szükséges</h3>
-      <input type="password" id="passInput" placeholder="Írd be a jelszót...">
-      <br>
-      <button onclick="checkPassword()">OK</button>
-    </div>
-  </div>
-
-  <p><b><i>Minden apró számít, tegyél egy picit Te is a repülőmalacba!</i></b></p>
-  <p><b><i>Ne feledd! Sok kicsi, sokra megy!</i></b></p>
-
-  
-<script>
- function showModal() {
-      document.getElementById('passwordModal').style.display = 'flex';
-    }
-
-    function checkPassword() {
-      const pw = document.getElementById('passInput').value;
-      if (pw === 'NY26') {
-        window.location.href = 'szamlalo.html';
-      } else {
-        alert('Hibás jelszó!');
-      }
-    }
-
-    function toggleMenu() {
-      document.getElementById('navMenu').classList.toggle('active');
-    }
-
-    window.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        document.getElementById('passwordModal').style.display = 'none';
-      }
-    });
-
-    window.addEventListener('click', function(e) {
-      const modal = document.getElementById('passwordModal');
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-  </script>
-
+  <footer>
+    <img src="zarokep.jpg" alt="Lakat" width="170px" height="200px"> <br>
+    <b>A weboldalunk lezárt! <br>
+    <i>Kellemes nyarat! Újranyitás ősszel! </i></b> <br>
+    <a href="#" style="font-size: 10px;"><b><i>ZÁRÓ DOKUMENTUM</i></b></a>
+  </footer>
 
   <script>
-    function frissitVisszaszamlalo() {
-      const celIdo = new Date("2026-06-01T00:00:00").getTime();
-      const most = new Date().getTime();
-      const kulonbseg = celIdo - most;
-
-      const nap = Math.floor(kulonbseg / (1000 * 60 * 60 * 24));
-      const ora = Math.floor((kulonbseg % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const perc = Math.floor((kulonbseg % (1000 * 60 * 60)) / (1000 * 60));
-      const masodperc = Math.floor((kulonbseg % (1000 * 60)) / 1000);
-
-      document.getElementById("nap").textContent = nap.toString().padStart(2, '0');
-      document.getElementById("ora").textContent = ora.toString().padStart(2, '0');
-      document.getElementById("perc").textContent = perc.toString().padStart(2, '0');
-      document.getElementById("masodperc").textContent = masodperc.toString().padStart(2, '0');
-    }
-
-    setInterval(frissitVisszaszamlalo, 1000);
-    frissitVisszaszamlalo();
-
-    window.addEventListener('load', () => {
-      const uzenet = document.getElementById('animacio-uzenet');
-      const intro = document.getElementById('intro-sky');
-
-      uzenet.style.display = 'block';
-
-      setTimeout(() => {
-        uzenet.style.display = 'none';
-        intro.style.display = 'none';
-      }, 5000);
-    });
-  </script>
-
-  <script>
-    /* ====== Repülő overlay logika ====== */
     (function(){
       const overlay = document.getElementById('intro-sky');
       const plane   = document.getElementById('intro-plane');
+      const main    = document.getElementById('main');
 
       const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
@@ -613,55 +133,26 @@ a img {
         return fallbackMs;
       }
       const DURATION = getMsFromVar('--intro-duration', 5000);
-      const smokeInterval = getMsFromVar('--smoke-interval', 70);
 
-      let timer = null, smokeTimer = null;
+      let timer = null;
 
       function endIntro(){
         if(timer){ clearTimeout(timer); timer=null; }
-        if(smokeTimer){ clearInterval(smokeTimer); smokeTimer=null; }
-        overlay.style.transition = 'opacity 400ms ease';
+        overlay.style.transition = 'opacity 420ms ease';
         overlay.style.opacity = '0';
         setTimeout(() => {
           overlay.remove();
           document.body.style.overflow = originalOverflow;
-        }, 420);
-      }
-
-      function startSmoke(){
-        const skyRect = overlay.getBoundingClientRect();
-        smokeTimer = setInterval(() => {
-          const pRect = plane.getBoundingClientRect();
-          const x = pRect.left - skyRect.left + pRect.width * 0.10;
-          const y = pRect.top  - skyRect.top  + pRect.height * 0.70;
-          makePuff(x, y);
-        }, smokeInterval);
-      }
-
-      function makePuff(x, y){
-        const d = document.createElement('div');
-        d.className = 'intro-smoke';
-        const size = 10 + Math.random()*22;
-        d.style.width = size + 'px';
-        d.style.height = size + 'px';
-        d.style.left = (x - size/2) + 'px';
-        d.style.top  = (y - size/2) + 'px';
-        d.style.animationDuration = (1400 + Math.random()*800) + 'ms';
-        overlay.appendChild(d);
-        d.addEventListener('animationend', () => d.remove());
+          main.style.visibility = 'visible';
+        }, 440);
       }
 
       const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(reduce){
-        endIntro();
-        return;
-      }
+      if(reduce){ endIntro(); return; }
 
       overlay.style.opacity = '1';
-      startSmoke();
       timer = setTimeout(endIntro, DURATION);
     })();
-
-</script>
+  </script>
 </body>
 </html>
