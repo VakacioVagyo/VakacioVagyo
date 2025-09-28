@@ -471,8 +471,119 @@ a img {
   .feltuno-iras::before{ animation:none; transform:none; opacity:1; }
 }
   </style>
+
 </head>
 <body>
+
+  <!-- Figyelmeztető doboz (reszponzív banner, nem tapad görgetéskor)--->
+<div class="alert-banner" aria-label="Figyelmeztetés">
+  <button class="alert-close" aria-label="Figyelmeztetés bezárása" title="Bezárás">×</button>
+  <p>⚠️⚠️<strong>FELHÍVÁS</strong>⚠️⚠️</p>
+  <p>Indul az utolsó nagy játékunk!</p>
+  <p><strong><i>Jelentkezz játékunkra 2025.10.03.ig!</i></strong></p>
+  <p><a href="sksm.html">KATTINTS IDE A RÉSZLETEKÉRT!</a></p>
+</div>
+
+<style>
+  .alert-banner{
+    /* Nem sticky, így görgetéskor eltűnik a képernyőről */
+    width: 100%;
+    box-sizing: border-box;
+    padding: max(10px, env(safe-area-inset-top)) 56px 10px 16px;
+    background: #d60000;  /* piros háttér */
+    color: #fff;          /* fehér szöveg */
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    line-height: 1.35;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+  }
+  .alert-banner p{
+    margin: 4px 0;
+    font-size: clamp(14px, 2.4vw, 18px); /* reszponzív betűméret */
+  }
+  .alert-banner a{
+    color: #fff;
+    text-decoration: underline;
+    font-weight: 700;
+  }
+
+  /* Bezáró gomb – nagy érintési felület */
+  .alert-close{
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .alert-close:focus-visible{
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* Kis képernyő finomhangolás */
+  @media (max-width: 480px){
+    .alert-banner{
+      padding-right: 56px;
+      padding-left: 14px;
+    }
+    .alert-banner p{
+      margin: 3px 0;
+    }
+  }
+
+  /* Nagyobb kijelzőkön kicsit elegánsabb tipó */
+  @media (min-width: 992px){
+    .alert-banner p:first-of-type{
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+  }
+
+  /* Akik kikapcsolt animációt kérnek, ne kapjanak mozgást */
+  @media (prefers-reduced-motion: no-preference){
+    .alert-banner{
+      transition: transform .25s ease, opacity .25s ease;
+    }
+    .alert-banner.is-hiding{
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+</style>
+
+<script>
+  // Bezárás: eltünteti a bannert (kis animációval, ha engedélyezett)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.alert-close');
+    if(!btn) return;
+    const banner = btn.closest('.alert-banner');
+    if(!banner) return;
+
+    // ha van animáció, várjuk meg a végét
+    banner.classList.add('is-hiding');
+    const onEnd = () => {
+      banner.style.display = 'none';
+      banner.removeEventListener('transitionend', onEnd);
+    };
+    const supportsAnim = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
+    if (supportsAnim){
+      banner.addEventListener('transitionend', onEnd);
+    } else {
+      banner.style.display = 'none';
+    }
+  });
+</script>
+
 
   <!-- ANIMÁCIÓ + SZÁMLÁLÓ -->
   <div class="intro-sky" id="intro-sky">
@@ -663,5 +774,7 @@ a img {
     })();
 
 </script>
+
+
 </body>
 </html>
