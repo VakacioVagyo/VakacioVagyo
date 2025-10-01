@@ -9,7 +9,7 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #fefcc8;
+      background: grey;
       color: #333;
     }
     /* NAVBAR */
@@ -93,52 +93,58 @@ button:focus {
       font-size: 18px;
       color: #333;
     }
+        .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      text-decoration: none;
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      background: #f1f1f1;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+    }
+    .close-btn:hover {
+      background: #ff4d4d;
+      color: white;
+      border-color: #ff1a1a;
+    }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <div class="navbar">
-    <a href="index.html" class="logo">VakációVágyó 2026</a>
-    <div class="hamburger" onclick="toggleMenu()">
-      <div></div><div></div><div></div>
-    </div>
-    <div class="menu" id="navMenu">
-      <a href="szamlalo.html">Számláló</a>
-      <a href="befizetesek.html">Befizetések</a>
-      <a href="eldujra.html">Éld újra</a>
-      <a href="akciok.html">Akciók</a>
-      <a href="tudnivalok.html">Információk</a>
-      <a href="rangom.html"><i>Rangom</i></a>
-    </div>
-  </div>
+     <a href="akciok.html" class="close-btn">×</a>
 
-
-  <main class="container">
-    <h1>KIEMELT AKCIÓK</h1>
- <article class="card">
-      <img src="sksmakcio.jpg" alt="Akció">
-      <div class="card-body">
-        <h3 class="card-title"> Sok kicsi, sokra megy! </h3>
-        <p class="card-text"> <b>Promóciós időszak: <br> 2025. október 01. - 2026. június 05.</b> <br> Résztvevők: <br> Orosz Kristóf </p>
-        <a href="sksm.html"><button>ELOLVASOM A RÉSZLETEKET! </button></a>
-      </div>
-    </article> <br>
-    </article><br>
-     
   <!-- EGY KÁRTYA -->
   <main class="container">
-    <h1>AKCIÓK</h1>
-    <p style="text-align: center;"><b><i>Jelenleg nincs rendelkezésre álló akciónk. Tekintsd meg a kiemelt ajánlatunkat!</i></b></p>
-    <br>
+    <h1>ARCHÍV AKCIÓK</h1>
+    <article class="card">
+      <img src="lezárt1.jpg" alt="Akció">
+      <div class="card-body">
+        <h3 class="card-title"> Rakj félre egy kis aprót az extra bónuszért!</h3>
+        <p class="card-text"> <span style="color: black"><b>Ha 2025.09.30.-ig félreraksz legalább 10.000- Ft-ot,  akkor most extra 5.000- Ft -ot írunk jóvá a nyaralási alapba! </b> <br> Forrás: Fillérfaló - Orosz Kristóf <br> Megj.: Az akció más akciókkal nem összevonható és O.Kristófnak nem jár bónusz. <br><br> <i>Érvényes: 2025. szeptember 30.-ig</i></p>
+      </div>
+    </article> <br>
+     <article class="card">
+      <img src="lezárt2.jpg" alt="Akció">
+      <div class="card-body">
+        <h3 class="card-title"> Tudtad? Lemondok a tartozásod egy részéről!</h3>
+        <p class="card-text"> <b> Annak egy részét félreteszem a saját perselyszámlámra a nyaralási alapba!
+ </b> <br> Hiszen sok kicsi sokra megy! <br> <br> <i>Érvényes: Visszavonásig</i></p>
+      </div>
+    </article><br>
      
 
       </main>
 
-  <footer>
-    <a href="archivakciok.html"><h3 style="font-size: 15px;"><b><i>Archív akciók</i></b></h3></a>
-  </footer>
-      
+
   <script>
     function toggleMenu(){
       document.getElementById("navMenu").classList.toggle("active");
