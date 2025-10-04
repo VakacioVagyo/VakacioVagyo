@@ -5,10 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VakációVágyó 2026</title>
   <style>
+    html, body {
+  height: auto;         /* csak akkora legyen, amennyi a tartalom */
+  min-height: 100%;     /* ne legyen kisebb, mint a képernyő */
+  overflow-x: hidden;   /* vízszintes csúszkát se engedjen */
+}
+
+body {
+  background-color: #fefcc8; /* marad a sárga háttér */
+  margin: 0;
+  padding: 0;
+}
+
     * {
       box-sizing: border-box;
     }
 
+    body{
+  min-height: 100dvh;          /* vizuális viewport magasság – mobil URL sáv változását jól kezeli */
+}
+p:last-of-type{
+  margin-bottom: 0;            /* az utolsó bekezdés (’Ne feledd…’) ne hagyjon extra helyet */
+}
     body {
       margin: 0;
       padding: 0;
@@ -475,7 +493,7 @@ a img {
 </head>
 <body>
 
-  <!-- Figyelmeztető doboz (reszponzív banner, nem tapad görgetéskor)--->
+  <!-- Figyelmeztető doboz (reszponzív banner, nem tapad görgetéskor)
 <div class="alert-banner" aria-label="Figyelmeztetés">
   <button class="alert-close" aria-label="Figyelmeztetés bezárása" title="Bezárás">×</button>
   <p>⚠️⚠️<strong>FELHÍVÁS</strong>⚠️⚠️</p>
@@ -584,6 +602,7 @@ a img {
   });
 </script>
 
+--->
 
   <!-- ANIMÁCIÓ + SZÁMLÁLÓ -->
   <div class="intro-sky" id="intro-sky">
@@ -621,7 +640,7 @@ a img {
 
   <div class="container">
     <h1>VakációVágyó <br> 2026</h1>
-    <p><b><i><span class="keziras feltuno-iras">Fogjunk össze 🤝, tegyünk félre 💰, és utazzunk az egyenlítő környékére. 🌎</span></i></b></p>
+    <p><b><i><span class="keziras feltuno-iras">Fogjunk össze 🤝, tegyünk félre 💰, és utazzunk az egyenlítő környékére. 🌎</span></i></b></p> <br>
 
     <img src="kep.png" alt="Malacpersely utazásra készen">
 
