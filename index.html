@@ -268,35 +268,38 @@ html, body {
     }
 
     /* Mobil: fixen alul középen */
-    @media (max-width: 768px) {
-      .login-btn {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80%;
-        font-size: 1.1rem;
-        padding: 1rem;
-        z-index: 999;
-      }
+    /* Mobil: gomb a kép alatt, nem takar el semmit */
+@media (max-width: 768px) {
+  .login-btn {
+    position: static;           /* 🔹 ne legyen fixen alul */
+    display: block;
+    margin: 1.5rem auto;        /* 🔹 középre igazítva a kép után */
+    width: 80%;
+    font-size: 1.1rem;
+    padding: 1rem;
+  }
 
-      header {
-        font-size: 2rem;
-      }
+  header {
+    font-size: 2rem;
+  }
 
-      .left-text {
-        font-size: 1.3rem;
-      }
+  main {
+    flex-direction: column;     /* 🔹 szöveg és kép egymás alatt */
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1rem 2rem;
+  }
 
-      main {
-        gap: 1rem; /* kisebb térköz mobilon */
-        padding: 1rem 1rem 5rem; /* hely a fix gombnak */
-      }
+  .left-text {
+    font-size: 1.3rem;
+    text-align: center;
+  }
 
-      .right-img img {
-        max-width: 90vw;
-      }
-    }
+  .right-img img {
+    max-width: 90vw;
+    height: auto;
+  }
+}
 
     /* --- Bejelentkezés modal --- */
     .login-modal {
