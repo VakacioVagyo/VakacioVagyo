@@ -21,7 +21,7 @@
       margin: 0;
       font-family: 'Segoe UI', Roboto, Arial, sans-serif;
       background-color: #fefcc8;
-      color: #003366;
+      color: black;
       overflow-x: hidden;
       display: flex;
       flex-direction: column;
@@ -181,7 +181,7 @@ html, body {
       padding: 2rem 0 1rem;
       font-size: 2.5rem;
       font-weight: 800;
-      color: #0d47a1;
+      color: black;
     }
 
     main {
@@ -268,38 +268,35 @@ html, body {
     }
 
     /* Mobil: fixen alul középen */
-    /* Mobil: gomb a kép alatt, nem takar el semmit */
-@media (max-width: 768px) {
-  .login-btn {
-    position: static;           /* 🔹 ne legyen fixen alul */
-    display: block;
-    margin: 1.5rem auto;        /* 🔹 középre igazítva a kép után */
-    width: 80%;
-    font-size: 1.1rem;
-    padding: 1rem;
-  }
+    @media (max-width: 768px) {
+      .login-btn {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        font-size: 1.1rem;
+        padding: 1rem;
+        z-index: 999;
+      }
 
-  header {
-    font-size: 2rem;
-  }
+      header {
+        font-size: 2rem;
+      }
 
-  main {
-    flex-direction: column;     /* 🔹 szöveg és kép egymás alatt */
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1rem 2rem;
-  }
+      .left-text {
+        font-size: 1.3rem;
+      }
 
-  .left-text {
-    font-size: 1.3rem;
-    text-align: center;
-  }
+      main {
+        gap: 1rem; /* kisebb térköz mobilon */
+        padding: 1rem 1rem 5rem; /* hely a fix gombnak */
+      }
 
-  .right-img img {
-    max-width: 90vw;
-    height: auto;
-  }
-}
+      .right-img img {
+        max-width: 90vw;
+      }
+    }
 
     /* --- Bejelentkezés modal --- */
     .login-modal {
@@ -390,7 +387,7 @@ html, body {
   </div>
 
   <!-- === Főoldal === -->
-  <header>VakációVágyó 2026</header>
+  <header>VakációVágyó <br>2026</header>
 
   <main>
     <div class="left-text">
