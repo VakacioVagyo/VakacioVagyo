@@ -23,7 +23,7 @@
       overflow-x: hidden;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      min-height: 100vh;          /* <<< mobilon felülírjuk */
     }
 
     h1, h2, h3, p { margin: 0; }
@@ -155,7 +155,7 @@
     }
 
     .main-line { font-weight: 700; }
-    .subline { font-size: 1.1rem; font-weight: 600; opacity: .9; }
+    .subline  { font-size: 1.1rem; font-weight: 600; opacity: .9; }
 
     .right-img {
       flex: 1 1 400px;
@@ -202,31 +202,42 @@
       }
     }
 
-    /* ===== MOBIL: kép felül, alatta középre igazított szövegek + gomb ===== */
+    /* ===== MOBIL: kép → gomb → szövegek, nincs üres alja ===== */
     @media (max-width: 768px) {
+      /* távolítsuk el a "kinyújtást", ami üres aljat okozott */
+      html, body { height: auto; }
+      body {
+        min-height: auto;   /* ne legyen 100vh */
+        display: block;     /* ne legyen flex-konténer */
+      }
+
       main {
-        flex-direction: column;   /* egymás alá */
+        display: flex;
+        flex-direction: column;
         gap: .8rem;
-        align-items: center;      /* a blokkok középre */
+        align-items: center;
+        padding-bottom: .5rem;  /* opcionális, csökkentett alsó padding */
       }
 
       .right-img {
-        order: 1;                 /* KÉP ELŐL */
+        order: 1;                 /* 1) KÉP */
         justify-content: center;
         align-items: center;
         width: 100%;
       }
 
-      .left-text {
-        order: 2;                 /* SZÖVEGEK ALATTA */
-        align-items: center;      /* szöveg belső igazítás középre */
-        text-align: center;
-        width: 100%;
+      .login-btn {
+        position: static;         /* 2) GOMB a kép alatt */
+        order: 2;
+        margin-top: .4rem;
+        align-self: center;
       }
 
-      .login-btn {
-        position: static;         /* ne legyen fix */
-        margin-top: .6rem;
+      .left-text {
+        order: 3;                 /* 3) SZÖVEGEK */
+        align-items: center;
+        text-align: center;
+        width: 100%;
       }
     }
 
@@ -314,13 +325,15 @@
   <main>
     <div class="left-text">
       <p class="main-line"><b><i>Fogjunk össze 🤝, tegyünk félre 💰, és utazzunk az egyenlítő környékére. 🌎</i></b></p>
-      <p class="subline">Ne feledd! Sok kicsi, sokra megy</p>
-      <button class="login-btn" id="loginBtn">BEJELENTKEZÉS</button>
+      <p class="subline">Ne feledd! Sok kicsi, sokra megy! </p>
     </div>
 
     <div class="right-img">
       <img src="vakaciovagyo.jpg" alt="Utazás hangulatkép" height="150" width="100">
     </div>
+
+    <!-- GOMB külön, hogy mobilon könnyen rendezhető legyen -->
+    <button class="login-btn" id="loginBtn">BEJELENTKEZÉS</button>
   </main>
 
   <!-- === Bejelentkezés modal === -->
