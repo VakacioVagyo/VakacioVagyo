@@ -289,9 +289,30 @@
       font-weight: 600;
     }
     .error-msg { color: red; font-weight: 600; display: none; }
-  </style>
+  
+    /* --- MOBILE-ONLY COUNTDOWN default hidden --- */
+    .countdown-mobile { display: none; margin-top: .4rem; }
+    .countdown-mobile .countdown-title { font-size: 1.05rem; font-weight: 800; color: #0d47a1 !important; text-align: center; }
+    .countdown-mobile .countdown { display: flex; gap: .8rem; justify-content: center; align-items: center; }
+    .countdown-mobile .countdown-item .number { font-size: 1.5rem; font-weight: 900; line-height: 1; }
+    .countdown-mobile .countdown-item .label { font-size: .75rem; opacity: .85; }
+
+    /* --- SCALE WRAPPER --- */
+    #page-content { transform-origin: top center; }
+
+    @media (max-width: 768px) {
+      /* Show only the mobile countdown under 768px; hide inline */
+      .countdown-inline { display: none !important; }
+      .countdown-mobile { display: grid !important; justify-items: center; gap: .3rem; }
+      /* Prevent vertical scroll, we will scale the content */
+      html, body { height: 100dvh; overflow: hidden; }
+      main { overflow: visible; }
+    }
+</style>
+
 </head>
 <body>
+<div id="page-content">
 
   <!-- === Repülős intro modal === -->
   <div class="modal" id="vv2026-modal">
@@ -326,7 +347,18 @@
     <div class="left-text">
       <p class="main-line"><b><i>Fogjunk össze 🤝, tegyünk félre 💰, és utazzunk az egyenlítő környékére. 🌎</i></b></p>
       <p class="subline">Ne feledd! Sok kicsi, sokra megy! </p>
-    </div>
+    
+      <!-- INLINE COUNTDOWN (desktop & tablet) -->
+      <section class="countdown-inline" aria-label="Visszaszámláló (inline)">
+        <div class="countdown-title">Visszaszámlálás a nyárig</div>
+        <div class="countdown">
+          <div class="countdown-item"><div class="number" id="d_inline">00</div><div class="label">NAP</div></div>
+          <div class="countdown-item"><div class="number" id="h_inline">00</div><div class="label">ÓRA</div></div>
+          <div class="countdown-item"><div class="number" id="m_inline">00</div><div class="label">PERC</div></div>
+          <div class="countdown-item"><div class="number" id="s_inline">00</div><div class="label">M.PERC</div></div>
+        </div>
+      </section>
+</div>
 
     <div class="right-img">
       <img src="vakaciovagyo.jpg" alt="Utazás hangulatkép" height="150" width="100">
@@ -334,6 +366,17 @@
 
     <!-- GOMB külön, hogy mobilon könnyen rendezhető legyen -->
     <button class="login-btn" id="loginBtn">BEJELENTKEZÉS</button>
+    <!-- MOBILE-ONLY COUNTDOWN (below login button) -->
+    <section class="countdown-mobile" aria-label="Visszaszámláló (mobil)">
+      <div class="countdown-title">Visszaszámlálás a nyárig</div>
+      <div class="countdown">
+        <div class="countdown-item"><div class="number" id="d_mob">00</div><div class="label">NAP</div></div>
+        <div class="countdown-item"><div class="number" id="h_mob">00</div><div class="label">ÓRA</div></div>
+        <div class="countdown-item"><div class="number" id="m_mob">00</div><div class="label">PERC</div></div>
+        <div class="countdown-item"><div class="number" id="s_mob">00</div><div class="label">M.PERC</div></div>
+      </div>
+    </section>
+
   </main>
 
   <!-- === Bejelentkezés modal === -->
@@ -396,6 +439,83 @@
     loginModal.addEventListener('click', e=>{
       if (e.target === loginModal) loginModal.classList.remove('active');
     });
-  </script>
+  
+    // --- Scale to fit on mobile so no vertical scroll is needed ---
+    function fitToViewport() {
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      const page = document.getElementById('page-content');
+      if (!page) return;
+      // reset scale first
+      page.style.transform = 'scale(1)';
+      if (!isMobile) return; // only scale on mobile
+
+      // Available height: viewport minus any safe-area insets
+      const vh = window.innerHeight;
+      const rect = page.getBoundingClientRect();
+      const contentHeight = rect.height;
+
+      // If content taller than viewport, scale it down
+      const scale = Math.min(1, vh / contentHeight);
+      page.style.transform = `scale(${scale})`;
+    }
+
+    window.addEventListener('resize', fitToViewport);
+    window.addEventListener('orientationchange', fitToViewport);
+</script>
+
+</div>
+
+<script>
+  // UPDATE_BOTH_COUNTDOWNS
+  (function() {
+    const target = new Date('2026-06-01T00:00:00');
+    const get = id => document.getElementById(id);
+
+    const sets = [
+      {d:get('d_inline'), h:get('h_inline'), m:get('m_inline'), s:get('s_inline')},
+      {d:get('d_mob'),    h:get('h_mob'),    m:get('m_mob'),    s:get('s_mob')}
+    ];
+
+    function tick() {
+      const now = new Date();
+      let diff = target - now;
+      if (diff < 0) diff = 0;
+      const days = Math.floor(diff / (1000*60*60*24));
+      const hours = Math.floor((diff / (1000*60*60)) % 24);
+      const mins = Math.floor((diff / (1000*60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+      for (const set of sets) {
+        if (set.d && set.h && set.m && set.s) {
+          set.d.textContent = String(days).padStart(2,'0');
+          set.h.textContent = String(hours).padStart(2,'0');
+          set.m.textContent = String(mins).padStart(2,'0');
+          set.s.textContent = String(secs).padStart(2,'0');
+        }
+      }
+    }
+
+    // Run after intro modal hides, then keep updating
+    setInterval(tick, 1000);
+    tick();
+
+    // After intro modal is gone, fit to viewport (mobile no-scroll)
+    setTimeout(() => { 
+      const modal = document.getElementById('vv2026-modal');
+      if (modal) modal.classList.add('hidden');
+      if (typeof fitToViewport === 'function') fitToViewport();
+    }, 5000);
+
+    // also run fit on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        if (typeof fitToViewport === 'function') fitToViewport();
+      });
+    } else {
+      if (typeof fitToViewport === 'function') fitToViewport();
+    }
+  })();
+</script>
+</div>
 </body>
+
 </html>
