@@ -188,6 +188,35 @@
     }
     .login-btn:hover { transform: scale(1.05); background-color: #ffea00; }
 
+    /* === ÚJ: Inline visszaszámláló stílusa a főoldalon === */
+    .countdown-inline {
+      margin-top: .5rem;
+      display: grid;
+      justify-items: center;
+      text-align: center;
+      gap: .5rem;
+    }
+    .countdown-inline .countdown-title {
+      font-size: clamp(1rem, 0.9rem + 0.5vw, 1.3rem);
+      color: #0d47a1;
+      font-weight: 800;
+    }
+    .countdown-inline .countdown {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+    }
+    .countdown-inline .countdown-item .number {
+      font-weight: 900;
+      font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.4rem);
+      line-height: 1;
+    }
+    .countdown-inline .countdown-item .label {
+      font-size: clamp(0.7rem, 0.6rem + 0.3vw, 0.9rem);
+      opacity: .8;
+    }
+
     /* ===== DESKTOP / LAPTOP ===== */
     @media (min-width: 769px) {
       .login-btn {
@@ -202,21 +231,24 @@
       }
     }
 
-    /* ===== MOBIL: kép → gomb → szövegek, nincs üres alja ===== */
+    /* ===== MOBIL: kép → gomb → szövegek → számláló, és minden kiférjen ===== */
     @media (max-width: 768px) {
-      /* távolítsuk el a "kinyújtást", ami üres aljat okozott */
-      html, body { height: auto; }
+      html, body { height: 100dvh; }
       body {
-        min-height: auto;   /* ne legyen 100vh */
-        display: block;     /* ne legyen flex-konténer */
+        min-height: 100dvh;
+        display: block;
+        margin: 0;
+        overflow-y: hidden;   /* ne gördüljön */
       }
+
+      header { font-size: 1.4rem; padding: .6rem 0; }
 
       main {
         display: flex;
         flex-direction: column;
-        gap: .8rem;
+        gap: .4rem;
         align-items: center;
-        padding-bottom: .5rem;  /* opcionális, csökkentett alsó padding */
+        padding: .5rem;
       }
 
       .right-img {
@@ -225,12 +257,21 @@
         align-items: center;
         width: 100%;
       }
+      .right-img img {
+        width: 65%;
+        max-width: 260px;
+        border-radius: 16px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+      }
 
       .login-btn {
         position: static;         /* 2) GOMB a kép alatt */
         order: 2;
-        margin-top: .4rem;
+        margin: .2rem 0 .1rem;
         align-self: center;
+        font-size: .95rem;
+        padding: .55rem 1.1rem;
+        border-radius: 40px;
       }
 
       .left-text {
@@ -238,7 +279,24 @@
         align-items: center;
         text-align: center;
         width: 100%;
+        font-size: 1rem;          /* összenyomva */
+        line-height: 1.35;
+        gap: .35rem;
       }
+      .subline { font-size: .95rem; }
+
+      /* 4) SZÁMLÁLÓ a gomb után — mivel a számláló a left-text-ben van, itt kompakt méretet adunk */
+      .countdown-inline {
+        order: 4;
+        margin-top: .2rem;
+        gap: .25rem;
+      }
+      .countdown-inline .countdown { gap: .6rem; }
+      .countdown-inline .countdown-item .number { font-size: 1.4rem; }
+      .countdown-inline .countdown-item .label { font-size: .7rem; }
+    }
+    .color2 {
+      color: blue;
     }
 
     /* --- Bejelentkezés modal --- */
@@ -289,30 +347,9 @@
       font-weight: 600;
     }
     .error-msg { color: red; font-weight: 600; display: none; }
-  
-    /* --- MOBILE-ONLY COUNTDOWN default hidden --- */
-    .countdown-mobile { display: none; margin-top: .4rem; }
-    .countdown-mobile .countdown-title { font-size: 1.05rem; font-weight: 800; color: #0d47a1 !important; text-align: center; }
-    .countdown-mobile .countdown { display: flex; gap: .8rem; justify-content: center; align-items: center; }
-    .countdown-mobile .countdown-item .number { font-size: 1.5rem; font-weight: 900; line-height: 1; }
-    .countdown-mobile .countdown-item .label { font-size: .75rem; opacity: .85; }
-
-    /* --- SCALE WRAPPER --- */
-    #page-content { transform-origin: top center; }
-
-    @media (max-width: 768px) {
-      /* Show only the mobile countdown under 768px; hide inline */
-      .countdown-inline { display: none !important; }
-      .countdown-mobile { display: grid !important; justify-items: center; gap: .3rem; }
-      /* Prevent vertical scroll, we will scale the content */
-      html, body { height: 100dvh; overflow: hidden; }
-      main { overflow: visible; }
-    }
-</style>
-
+  </style>
 </head>
 <body>
-<div id="page-content">
 
   <!-- === Repülős intro modal === -->
   <div class="modal" id="vv2026-modal">
@@ -347,18 +384,19 @@
     <div class="left-text">
       <p class="main-line"><b><i>Fogjunk össze 🤝, tegyünk félre 💰, és utazzunk az egyenlítő környékére. 🌎</i></b></p>
       <p class="subline">Ne feledd! Sok kicsi, sokra megy! </p>
-    
-      <!-- INLINE COUNTDOWN (desktop & tablet) -->
-      <section class="countdown-inline" aria-label="Visszaszámláló (inline)">
-        <div class="countdown-title">Visszaszámlálás a nyárig</div>
+
+      <!-- === ÚJ: Visszaszámláló a "Ne feledd!" szöveg alatt === -->
+      <section class="countdown-inline" aria-label="Visszaszámláló">
+        <div class="countdown-title color2">Visszaszámlálás a nyárig</div>
         <div class="countdown">
-          <div class="countdown-item"><div class="number" id="d_inline">00</div><div class="label">NAP</div></div>
-          <div class="countdown-item"><div class="number" id="h_inline">00</div><div class="label">ÓRA</div></div>
-          <div class="countdown-item"><div class="number" id="m_inline">00</div><div class="label">PERC</div></div>
-          <div class="countdown-item"><div class="number" id="s_inline">00</div><div class="label">M.PERC</div></div>
+          <div class="countdown-item"><div class="number" id="days2">00</div><div class="label">NAP</div></div>
+          <div class="countdown-item"><div class="number" id="hours2">00</div><div class="label">ÓRA</div></div>
+          <div class="countdown-item"><div class="number" id="minutes2">00</div><div class="label">PERC</div></div>
+          <div class="countdown-item"><div class="number" id="seconds2">00</div><div class="label">M.PERC</div></div>
         </div>
       </section>
-</div>
+      <!-- === /ÚJ === -->
+    </div>
 
     <div class="right-img">
       <img src="vakaciovagyo.jpg" alt="Utazás hangulatkép" height="150" width="100">
@@ -366,17 +404,6 @@
 
     <!-- GOMB külön, hogy mobilon könnyen rendezhető legyen -->
     <button class="login-btn" id="loginBtn">BEJELENTKEZÉS</button>
-    <!-- MOBILE-ONLY COUNTDOWN (below login button) -->
-    <section class="countdown-mobile" aria-label="Visszaszámláló (mobil)">
-      <div class="countdown-title">Visszaszámlálás a nyárig</div>
-      <div class="countdown">
-        <div class="countdown-item"><div class="number" id="d_mob">00</div><div class="label">NAP</div></div>
-        <div class="countdown-item"><div class="number" id="h_mob">00</div><div class="label">ÓRA</div></div>
-        <div class="countdown-item"><div class="number" id="m_mob">00</div><div class="label">PERC</div></div>
-        <div class="countdown-item"><div class="number" id="s_mob">00</div><div class="label">M.PERC</div></div>
-      </div>
-    </section>
-
   </main>
 
   <!-- === Bejelentkezés modal === -->
@@ -393,20 +420,36 @@
     // --- Visszaszámláló ---
     (function() {
       const t = new Date('2026-06-01T00:00:00');
-      const d = document.getElementById('days'),
-            h = document.getElementById('hours'),
-            m = document.getElementById('minutes'),
-            s = document.getElementById('seconds');
+
+      // Eredeti modal számláló elemei
+      const d1 = document.getElementById('days'),
+            h1 = document.getElementById('hours'),
+            m1 = document.getElementById('minutes'),
+            s1 = document.getElementById('seconds');
+
+      // ÚJ: inline számláló elemei (ha jelen vannak)
+      const d2 = document.getElementById('days2'),
+            h2 = document.getElementById('hours2'),
+            m2 = document.getElementById('minutes2'),
+            s2 = document.getElementById('seconds2');
+
+      function setValues(diff, dEl, hEl, mEl, sEl) {
+        if (!dEl || !hEl || !mEl || !sEl) return;
+        dEl.textContent = Math.floor(diff / (1000*60*60*24)).toString().padStart(2,'0');
+        hEl.textContent = Math.floor((diff / (1000*60*60)) % 24).toString().padStart(2,'0');
+        mEl.textContent = Math.floor((diff / (1000*60)) % 60).toString().padStart(2,'0');
+        sEl.textContent = Math.floor((diff / 1000) % 60).toString().padStart(2,'0');
+      }
 
       function update() {
         const now = new Date(), diff = t - now;
         if (diff <= 0) return;
-        d.textContent = Math.floor(diff / (1000*60*60*24)).toString().padStart(2,'0');
-        h.textContent = Math.floor((diff / (1000*60*60)) % 24).toString().padStart(2,'0');
-        m.textContent = Math.floor((diff / (1000*60)) % 60).toString().padStart(2,'0');
-        s.textContent = Math.floor((diff / 1000) % 60).toString().padStart(2,'0');
+        setValues(diff, d1, h1, m1, s1);
+        setValues(diff, d2, h2, m2, s2);
       }
-      setInterval(update,1000); update();
+
+      setInterval(update, 1000);
+      update();
 
       setTimeout(()=>document.getElementById('vv2026-modal').classList.add('hidden'),5000);
     })();
@@ -439,83 +482,6 @@
     loginModal.addEventListener('click', e=>{
       if (e.target === loginModal) loginModal.classList.remove('active');
     });
-  
-    // --- Scale to fit on mobile so no vertical scroll is needed ---
-    function fitToViewport() {
-      const isMobile = window.matchMedia('(max-width: 768px)').matches;
-      const page = document.getElementById('page-content');
-      if (!page) return;
-      // reset scale first
-      page.style.transform = 'scale(1)';
-      if (!isMobile) return; // only scale on mobile
-
-      // Available height: viewport minus any safe-area insets
-      const vh = window.innerHeight;
-      const rect = page.getBoundingClientRect();
-      const contentHeight = rect.height;
-
-      // If content taller than viewport, scale it down
-      const scale = Math.min(1, vh / contentHeight);
-      page.style.transform = `scale(${scale})`;
-    }
-
-    window.addEventListener('resize', fitToViewport);
-    window.addEventListener('orientationchange', fitToViewport);
-</script>
-
-</div>
-
-<script>
-  // UPDATE_BOTH_COUNTDOWNS
-  (function() {
-    const target = new Date('2026-06-01T00:00:00');
-    const get = id => document.getElementById(id);
-
-    const sets = [
-      {d:get('d_inline'), h:get('h_inline'), m:get('m_inline'), s:get('s_inline')},
-      {d:get('d_mob'),    h:get('h_mob'),    m:get('m_mob'),    s:get('s_mob')}
-    ];
-
-    function tick() {
-      const now = new Date();
-      let diff = target - now;
-      if (diff < 0) diff = 0;
-      const days = Math.floor(diff / (1000*60*60*24));
-      const hours = Math.floor((diff / (1000*60*60)) % 24);
-      const mins = Math.floor((diff / (1000*60)) % 60);
-      const secs = Math.floor((diff / 1000) % 60);
-      for (const set of sets) {
-        if (set.d && set.h && set.m && set.s) {
-          set.d.textContent = String(days).padStart(2,'0');
-          set.h.textContent = String(hours).padStart(2,'0');
-          set.m.textContent = String(mins).padStart(2,'0');
-          set.s.textContent = String(secs).padStart(2,'0');
-        }
-      }
-    }
-
-    // Run after intro modal hides, then keep updating
-    setInterval(tick, 1000);
-    tick();
-
-    // After intro modal is gone, fit to viewport (mobile no-scroll)
-    setTimeout(() => { 
-      const modal = document.getElementById('vv2026-modal');
-      if (modal) modal.classList.add('hidden');
-      if (typeof fitToViewport === 'function') fitToViewport();
-    }, 5000);
-
-    // also run fit on DOM ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if (typeof fitToViewport === 'function') fitToViewport();
-      });
-    } else {
-      if (typeof fitToViewport === 'function') fitToViewport();
-    }
-  })();
-</script>
-</div>
+  </script>
 </body>
-
 </html>
