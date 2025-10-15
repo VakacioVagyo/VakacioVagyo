@@ -72,7 +72,7 @@
       text-shadow: 0 6px 20px rgba(0,0,0,.25);
       animation: zoomIn var(--duration) ease-out both;
     }
-    .title span.big { display: block; font-size: clamp(2.2rem, 5vw + .5rem, 5rem); }
+    .title span.big { display: block; font-size: clamp(1.5rem, 3vw + .3rem, 3rem); }
     @keyframes zoomIn {
       0% { transform: scale(.85); opacity: 0; }
       12% { opacity: 1; }
@@ -435,6 +435,135 @@
   .countdown-inline .countdown-item .number { font-size: 1.35rem; }
   .countdown-inline .countdown-item .label { font-size: .68rem; }
 }
+@media (max-width: 768px) {
+  /* ne feszítsd szét a nézetet */
+  html, body { height: auto; }
+  body {
+    overflow-y: auto;
+    margin: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* FŐ: ne flex, ne grid, ne gap – sima folyó elrendezés */
+  main {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* “Blokkos” wrapek kilapítása – nem hoznak létre saját dobozt */
+  .row, .container, .section, .block, .card,
+  .left-text, .right-img, .panel, .box {
+    display: contents !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  /* minden közvetlen elem egymás alatt, minimális réssel */
+  main > * {
+    display: block;
+    margin: 0;                /* teljesen zéró extra térköz */
+    padding: 0;
+  }
+
+  /* ha kell pici, egységes ritmus: */
+  p, h1, h2, h3, ul, ol, figure {
+    margin: 0 0 .5rem 0;      /* egységes, kicsi alsó térköz */
+  }
+
+  /* képek szépen a szövegfolyamban */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* gombok is a folyó szövegben jelenjenek meg */
+  .login-btn, .btn, button, a.button {
+    position: static !important;
+    display: inline-block;
+    margin: .5rem 0 0 0;
+  }
+
+  /* bármilyen korábbi flex/grid “gap” kiiktatása */
+  [class*="flex"], [class*="grid"] {
+    gap: 0 !important;
+  }
+
+  /* felesleges sortörések hatásának csökkentése */
+  br { line-height: 0; }
+}
+@media (max-width: 768px) {
+  /* KÉP középre */
+  img,
+  .right-img img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* GOMB középre */
+  .login-btn,
+  .btn,
+  button,
+  a.button {
+    position: static !important;   /* ne legyen fix */
+    display: block;                /* így működik a margin: auto */
+    margin: .75rem auto 0;         /* középre igazítás */
+    left: auto; right: auto;       /* biztos ami biztos */
+    text-align: center;            /* gombon belüli szöveg is középen */
+  }
+}
+@media (max-width: 768px) {
+  /* 1) A visszaszámláló alá kis alsó margó */
+  .countdown,
+  .countdown-inline {
+    margin-bottom: .6rem !important;   /* finom ritmus */
+  }
+
+  /* 2) Ha közvetlenül a visszaszámláló UTÁN jön a kép, kapjon felső margót */
+  .countdown + img,
+  .countdown-inline + img,
+  .countdown + .right-img img,
+  .countdown-inline + .right-img img {
+    margin-top: .6rem !important;
+  }
+}
+@media (max-width: 768px) {
+  body { padding-bottom: 160px; } /* hely a fix elemeknek */
+
+  /* GOMB legalul, középen */
+  .login-btn {
+    position: fixed !important;
+    left: 50%;
+    bottom: calc(env(safe-area-inset-bottom, 0) + 12px);
+    transform: translateX(-50%);
+    margin: 0 !important;
+    z-index: 1000;
+  }
+
+  /* KÉP a gomb fölött, középen */
+  .right-img {
+    position: fixed !important;
+    left: 50%;
+    transform: translateX(-50%);
+    /* gomb magassága ~48–56px + kis térköz */
+    bottom: calc(env(safe-area-inset-bottom, 0) + 12px + 56px + .6rem);
+    width: 100%;
+    display: flex !important;
+    justify-content: center;
+    pointer-events: none;        /* ne takarja ki a tartalmat érintésnél */
+  }
+  .right-img img {
+    pointer-events: auto;        /* a képre lehessen kattintani */
+    max-width: 240px;
+    height: auto;
+    display: block;
+  }
+}
 
   </style>
 </head>
@@ -453,8 +582,8 @@
         </div>
       </div>
 
-      <h2 class="title"><span class="big">VakációVágyó</span></h2>
-      <span class="big text"><i>Orosz Család</i></span></h2>
+      <h2 class="title"><span class="big">VAKÁCIÓVÁGYÓ <br><i>Orosz Család</i> </span></h2>
+      
 
       <div class="slide-area">
         <img src="repulo.png" alt="Repülő animáció" class="slider">
@@ -468,7 +597,7 @@
   </div>
 
   <!-- === Főoldal === -->
-  <header>VakációVágyó <br>2026</header>
+  <header>VakációVágyó <br>2026</header> <br>
 
   <main>
     <div class="left-text">
@@ -476,7 +605,7 @@
       <p class="subline">Ne feledd! Sok kicsi, sokra megy! </p>
 
       <!-- === ÚJ: Visszaszámláló a "Ne feledd!" szöveg alatt === -->
-      <section class="countdown-inline" aria-label="Visszaszámláló">
+      <section class="countdown-inline" aria-label="Visszaszámláló"> <br>
         <div class="countdown-title color2">VISSZASZÁMLÁLÁS NYÁRIG</div>
         <div class="countdown">
           <div class="countdown-item"><div class="number" id="days2">00</div><div class="label">NAP</div></div>
