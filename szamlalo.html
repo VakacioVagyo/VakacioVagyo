@@ -196,8 +196,56 @@
 }
 
   </style>
+<style>
+    /* Teljes képernyős, SZÜRKE, ÁTTETSZŐ háttér */
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(128, 128, 128, 0.6); /* szürke + áttetsző */
+      z-index: 9999;
+    }
+    .hidden { display: none; }
+
+    /* Tartó */
+    .modal__content {
+      display: grid;
+      place-items: center;
+      padding: 0;
+      background: transparent;
+      max-width: 95vw;
+      max-height: 95vh;
+    }
+
+    /* A kép: max 45×50 cm, mobilon összemegy */
+    .modal__img {
+      width: min(45cm, 90vw);
+      height: min(50cm, 90vh);
+      object-fit: contain;
+      display: block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    main { padding: 24px; font: 16px/1.5 system-ui, sans-serif; }
+  </style>
 </head>
 <body>
+
+   <!-- MODAL: automatikusan nyitjuk betöltéskor -->
+  <div class="modal" id="imgModal" role="dialog" aria-modal="true" aria-label="Kép megnyitva">
+    <div class="modal__content">
+      <img
+        id="modalImage"
+        class="modal__img"
+        src="blokkszamlalo.jpg"
+        alt="Megnyitott kép – kattints a bezáráshoz"
+      />
+    </div>
+  </div>
 
   <!-- MENÜSÁV -->
   <div class="navbar">
@@ -390,6 +438,37 @@
       fillAccount("szilviaAccountName", "szilviaAccountNumber", szilviaAccountName, szilviaAccountNumber);
       fillAccount("kristofAccountName", "kristofAccountNumber", kristofAccountName, kristofAccountNumber);
     };
+  </script>
+
+  <script>
+    const modal = document.getElementById('imgModal');
+    const modalImage = document.getElementById('modalImage');
+
+    function openModal() {
+      modal.classList.remove('hidden');
+      document.documentElement.style.overflow = 'hidden'; // görgetés tiltása
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      document.documentElement.style.overflow = ''; // görgetés visszaállítása
+    }
+
+    // 1) MINDEN betöltéskor nyit
+    window.addEventListener('DOMContentLoaded', openModal);
+
+    // 2) Kattintásra tűnjön el (kép vagy háttér)
+    modal.addEventListener('click', (e) => {
+      // Ha bárhová kattint, zárjuk; ha csak háttérre kellene, akkor: if (e.target === modal) closeModal();
+      closeModal();
+    });
+
+    // 3) (opcionális) ESC-re is bezár
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
   </script>
 </body>
 </html>

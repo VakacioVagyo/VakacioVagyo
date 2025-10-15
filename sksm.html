@@ -174,7 +174,7 @@ border-radius: 8px;
   background:#e9f0fb; /* felső fejléccsík */
 }
 .naplo-table tbody tr:nth-child(even){ background:rgba(0,0,0,.02); }
-.naplo-left{ text-align:left; font-weight:600; white-space:normal; }
+.naplo-left{ text-align:center; font-weight:600; white-space:normal; }
 
 /* Mobilbarát „kártyás” nézet  ≤ 640px */
 @media (max-width:640px){
@@ -188,7 +188,7 @@ border-radius: 8px;
   }
   .naplo-table td::before{
     content: attr(data-label);
-    text-align:left; font-weight:700; color:#14374f;
+    text-align:center; font-weight:700; color:#14374f;
   }
   .naplo-table td.naplo-month{
     grid-template-columns: 1fr; text-align:left; font-weight:800; color:#1a4c6b;
@@ -315,113 +315,6 @@ border-radius: 8px;
     </article>
   </main>
   </div>
-  <!---
-<section id="teljesitesi-naplo" class="naplo">
-  <details class="naplo-acc">
-    <summary>Teljesítési Napló</summary>
 
-    <div class="naplo-scroll">
-      <table class="naplo-table" aria-label="Teljesítési Napló">
-        <thead>
-          <tr>
-            <th rowspan="2" class="naplo-left">Hónap</th>
-            <th colspan="2">Orosz Sándor</th>
-            <th colspan="2">Orosz Szilvia</th>
-            <th colspan="2">Orosz Kristóf</th>
-          </tr>
-          <tr>
-            <th>Befizetés</th><th>Bónusz</th>
-            <th>Befizetés</th><th>Bónusz</th>
-            <th>Befizetés</th><th>Bónusz</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          <tr>
-            <td class="naplo-left naplo-month" data-label="Hónap">2025. október</td>
-            <td data-label="Orosz Sándor – Befizetés"></td>
-            <td data-label="Orosz Sándor – Bónusz"></td>
-            <td data-label="Orosz Szilvia – Befizetés"></td>
-            <td data-label="Orosz Szilvia – Bónusz"></td>
-            <td data-label="Orosz Kristóf – Befizetés"></td>
-            <td data-label="Orosz Kristóf – Bónusz"></td>
-          </tr>
-
-         
-          <tr>
-            <td class="naplo-left naplo-month" data-label="Hónap">2025. november</td>
-            <td data-label="Orosz Sándor – Befizetés"></td>
-            <td data-label="Orosz Sándor – Bónusz"></td>
-            <td data-label="Orosz Szilvia – Befizetés"></td>
-            <td data-label="Orosz Szilvia – Bónusz"></td>
-            <td data-label="Orosz Kristóf – Befizetés"></td>
-            <td data-label="Orosz Kristóf – Bónusz"></td>
-          </tr>
-
-          
-          <tr>
-            <td class="naplo-left naplo-month" data-label="Hónap">2025. december</td>
-            <td data-label="Orosz Sándor – Befizetés"></td>
-            <td data-label="Orosz Sándor – Bónusz"></td>
-            <td data-label="Orosz Szilvia – Befizetés"></td>
-            <td data-label="Orosz Szilvia – Bónusz"></td>
-            <td data-label="Orosz Kristóf – Befizetés"></td>
-            <td data-label="Orosz Kristóf – Bónusz"></td>
-          </tr>
-
-          
-   
-                    <tr>
-            <td class="naplo-left naplo-month" data-label="Hónap">2026. január</td>
-            <td data-label="Orosz Sándor – Befizetés"></td>
-            <td data-label="Orosz Sándor – Bónusz"></td>
-            <td data-label="Orosz Szilvia – Befizetés"></td>
-            <td data-label="Orosz Szilvia – Bónusz"></td>
-            <td data-label="Orosz Kristóf – Befizetés"></td>
-            <td data-label="Orosz Kristóf – Bónusz"></td>
-          </tr>
-                    <tr>
-            <td class="naplo-left naplo-month" data-label="Hónap">2026. február</td>
-            <td data-label="Orosz Sándor – Befizetés"></td>
-            <td data-label="Orosz Sándor – Bónusz"></td>
-            <td data-label="Orosz Szilvia – Befizetés"></td>
-            <td data-label="Orosz Szilvia – Bónusz"></td>
-            <td data-label="Orosz Kristóf – Befizetés"></td>
-            <td data-label="Orosz Kristóf – Bónusz"></td>
-          </tr>
-
-                    <tr>
-            <td class="naplo-left naplo-month" data-label="Hónap">2026. március</td>
-            <td data-label="Orosz Sándor – Befizetés"></td>
-            <td data-label="Orosz Sándor – Bónusz"></td>
-            <td data-label="Orosz Szilvia – Befizetés"></td>
-            <td data-label="Orosz Szilvia – Bónusz"></td>
-            <td data-label="Orosz Kristóf – Befizetés"></td>
-            <td data-label="Orosz Kristóf – Bónusz"></td>
-          </tr>
-                    <tr>
-            <td class="naplo-left naplo-month" data-label="Hónap">2026. április</td>
-            <td data-label="Orosz Sándor – Befizetés"></td>
-            <td data-label="Orosz Sándor – Bónusz"></td>
-            <td data-label="Orosz Szilvia – Befizetés"></td>
-            <td data-label="Orosz Szilvia – Bónusz"></td>
-            <td data-label="Orosz Kristóf – Befizetés"></td>
-            <td data-label="Orosz Kristóf – Bónusz"></td>
-          </tr>
-                    <tr>
-            <td class="naplo-left naplo-month" data-label="Hónap">2026. május</td>
-            <td data-label="Orosz Sándor – Befizetés"></td>
-            <td data-label="Orosz Sándor – Bónusz"></td>
-            <td data-label="Orosz Szilvia – Befizetés"></td>
-            <td data-label="Orosz Szilvia – Bónusz"></td>
-            <td data-label="Orosz Kristóf – Befizetés"></td>
-            <td data-label="Orosz Kristóf – Bónusz"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </details>
-</section>
----->
 </body>
 </html>
