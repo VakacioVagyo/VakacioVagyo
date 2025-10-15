@@ -357,6 +357,86 @@
     }
     .error-msg { color: red; font-weight: 600; display: none; }
   </style>
+  <style>
+ @media (max-width: 768px) {
+  /* háttér csak a tartalomig + természetes PTR */
+  html, body { height: auto; }
+  body {
+    min-height: auto;
+    display: block;
+    margin: 0;
+    overflow-y: auto;                  /* engedjük a gördülést + PTR-t */
+    -webkit-overflow-scrolling: touch; /* iOS gördülés+PTR */
+    overscroll-behavior-y: auto;       /* PTR ne legyen tiltva */
+    touch-action: pan-y;               /* függőleges gesztusok */
+  }
+
+  /* elrendezés */
+  main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: .6rem;
+    padding: 1rem 5vw 1.2rem;
+    min-height: auto;
+  }
+  .mainwrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .6rem;
+    padding: .6rem 0 1rem;
+  }
+
+  .right-img { order: 1; align-items: center; }
+  .right-img img {
+    /* kicsit kisebb kép, hogy minden biztosan kiférjen */
+    width: 58%;
+    max-width: 240px;
+    border-radius: 16px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+  }
+
+  .login-btn {
+    position: static;
+    order: 2;
+    margin: .25rem 0 .15rem;
+    align-self: center;
+
+    /* nagyobb, de visszafogott méretezés */
+    font-size: clamp(1rem, 2.8vw + .6rem, 1.2rem);
+    padding: .7rem 1.4rem;
+    border-radius: 44px;
+
+    /* jobb tappolhatóság */
+    min-height: 44px;
+    min-width: 180px;
+    letter-spacing: .3px;
+  }
+
+  .left-text {
+    /* egy hajszállal kompaktabb, hogy biztosan ne kelljen görgetni */
+    order: 3;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    font-size: .95rem;
+    line-height: 1.35;
+    gap: .3rem;
+  }
+
+  .subline { font-size: .9rem; }
+
+  .countdown-inline {
+    margin-top: .2rem;
+    gap: .2rem;
+  }
+  .countdown-inline .countdown { gap: .5rem; }
+  .countdown-inline .countdown-item .number { font-size: 1.35rem; }
+  .countdown-inline .countdown-item .label { font-size: .68rem; }
+}
+
+  </style>
 </head>
 <body>
 
