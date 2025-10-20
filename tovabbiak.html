@@ -240,6 +240,18 @@
       color: white;
       /* fehér szöveg */
     }
+footer {
+  margin-top: auto;       /* ez tolja az aljára */
+  padding: 1rem;          /* helyette nem kell 15px + 1rem, elég 1rem */
+  background: #cfe0ff;    /* világoskék háttér */
+  text-align: center;
+}
+
+footer h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
 
     .btn-row {
       display: grid;
@@ -314,6 +326,7 @@
         transition: none;
       }
     }
+
   </style>
 </head>
 
@@ -367,6 +380,13 @@
       document.getElementById('navMenu').classList.toggle('active');
     }
   </script>
+
+<!--
+     <a href="archivdokumentumok.html">
+      <h3 style="font-size: 15px;"><b><i>Archív dokumentumok</i></b></h3>
+    </a>
+
+    ----->
 </body>
 
 </html>
